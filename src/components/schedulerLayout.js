@@ -8,6 +8,7 @@ import {
   Toolbar,
   DateNavigator,
   TodayButton,
+  AppointmentTooltip,
 } from "@devexpress/dx-react-scheduler-material-ui";
 
 import { ViewState } from "@devexpress/dx-react-scheduler";
@@ -189,9 +190,9 @@ const SchedulerComponent = () => {
           <MonthView timeTableCellComponent={TimeTableCell} />
           <Toolbar />
           <ViewSwitcher />
-          <DateNavigator />
           <TodayButton />
           <Appointments />
+          <AppointmentTooltip />
         </Scheduler>
       )}
     </div>
