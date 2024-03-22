@@ -17,13 +17,20 @@ const classes = {
   commandButton: `${PREFIX}-commandButton`,
 };
 
+const getClassByLocation = (location) => {
+  if (location === "Room 1")
+    return "https://js.devexpress.com/Demos/DXHotels/Content/Pictures/Lobby-4.jpg";
+  if (location === "Room 2")
+    return "https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-4.jpg";
+  return "https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-0.jpg";
+};
+
 const StyledAppointmentTooltipHeader = styled(AppointmentTooltip.Header)(
   () => ({
     [`&.${classes.header}`]: {
       height: "260px",
       backgroundSize: "cover",
     },
-    // Outras definições de estilos baseadas em classes específicas
   }),
 );
 
@@ -53,7 +60,6 @@ const StyledAppointmentTooltipCommandButton = styled(
   },
 }));
 
-// Componentes
 const Header = ({ children, appointmentData, ...restProps }) => {
   const [imageUrl, setImageUrl] = useState("");
   const [imageError, setImageError] = useState(false);
@@ -61,10 +67,8 @@ const Header = ({ children, appointmentData, ...restProps }) => {
   useEffect(() => {
     const fetchImageUrl = async () => {
       try {
-        // ${API_URL/quadras/:id/image};
-        const url = await fetch(
-          "https://js.devexpress.com/Demos/DXHotels/Content/Pictures/Lobby-4.jpg",
-        );
+        // TODO Integrar com API
+        const url = getClassByLocation(appointmentData.location);
         setImageUrl(url);
       } catch (error) {
         console.log("Failed to load image: ", error);

@@ -7,7 +7,7 @@ import OkEmailPage from "./pages/email-check";
 import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
 import AgendamentosPage from "./pages/agendamentos/AgendamentosPage";
-import SchedulerComponent from "./components/schedulerLayout";
+import SchedulerComponent from "./components/scheduler/schedulerLayout";
 
 function Rotas() {
   return (

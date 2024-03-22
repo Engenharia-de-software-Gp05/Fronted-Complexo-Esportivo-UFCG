@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Grid, Paper, Stack } from "@mui/material";
-import SchedulerComponent from "../../components/schedulerLayout";
+import SchedulerComponent from "../../components/scheduler/schedulerLayout";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
