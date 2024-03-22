@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Grid, Paper, Stack } from "@mui/material";
 import SchedulerComponent from "../../components/scheduler/schedulerLayout";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -27,7 +27,7 @@ const AgendamentosPage = () => {
             <Stack display={"flex"} alignItems={"center"}>
               <Button variant="contained">Agendar</Button>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateCalendar />
+                <CalendarPicker />
               </LocalizationProvider>
             </Stack>
             <Divider />
