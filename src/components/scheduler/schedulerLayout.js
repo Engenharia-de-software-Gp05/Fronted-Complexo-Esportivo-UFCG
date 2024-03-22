@@ -8,15 +8,22 @@ import {
   Toolbar,
   TodayButton,
   AppointmentTooltip,
+  ConfirmationDialog,
+  AppointmentForm,
+  DateNavigator,
+  DragDropProvider,
 } from "@devexpress/dx-react-scheduler-material-ui";
 
-import { ViewState } from "@devexpress/dx-react-scheduler";
+import { IntegratedEditing, ViewState } from "@devexpress/dx-react-scheduler";
 import { Header, Content, CommandButton } from "./AppointmentTooltip";
 
 import appointments from "./Data";
+import AppointmentEditor from "./AppointmentEditor";
 
-const currentDate = "2024-03-01";
+const currentDate = "2024-03-24";
 const schedulerHeaderHeight = 100; // static value
+
+const allowDrag = ({ id }) => true;
 
 const SchedulerComponent = () => {
   const [data, setData] = React.useState(appointments);
@@ -59,17 +66,25 @@ const SchedulerComponent = () => {
             defaultCurrentDate={currentDate}
             defaultCurrentViewName="Month"
           />
+          <AppointmentEditor datas={data} setData={setData} />
+          <IntegratedEditing />
           <WeekView startDayHour={9} endDayHour={19} />
           <MonthView timeTableCellComponent={TimeTableCell} />
+          <ConfirmationDialog />
           <Toolbar />
+          <DateNavigator />
           <ViewSwitcher />
           <TodayButton />
           <Appointments />
           <AppointmentTooltip
+            showOpenButton
+            showDeleteButton
             headerComponent={Header}
             contentComponent={Content}
             commandButtonComponent={CommandButton}
           />
+          <DragDropProvider allowDrag={allowDrag} />
+          <AppointmentForm />
         </Scheduler>
       )}
     </div>
