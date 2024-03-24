@@ -21,9 +21,18 @@ import appointments from "./Data";
 import AppointmentEditor from "./AppointmentEditor";
 
 const currentDate = "2024-03-24";
-const schedulerHeaderHeight = 100; // static value
 
-const allowDrag = ({ id }) => true;
+const StyledTimeTableCell = ({ schedulerHeight, ...props }) => {
+  const schedulerHeaderHeight = 100;
+  return (
+    <MonthView.TimeTableCell
+      {...props}
+      style={{
+        height: `${(schedulerHeight - schedulerHeaderHeight) / 6}px`,
+      }}
+    />
+  );
+};
 
 const SchedulerComponent = () => {
   const [data, setData] = React.useState(appointments);
@@ -47,17 +56,6 @@ const SchedulerComponent = () => {
     };
   }, []);
 
-  const TimeTableCell = (props) => {
-    return (
-      <MonthView.TimeTableCell
-        {...props}
-        style={{
-          height: `${(schedulerHeight - schedulerHeaderHeight) / 6}px`,
-        }}
-      />
-    );
-  };
-
   return (
     <div ref={schedulerRef} style={{ height: "100%" }}>
       {schedulerHeight && (
@@ -69,7 +67,14 @@ const SchedulerComponent = () => {
           <AppointmentEditor datas={data} setData={setData} />
           <IntegratedEditing />
           <WeekView startDayHour={9} endDayHour={19} />
-          <MonthView timeTableCellComponent={TimeTableCell} />
+          <MonthView
+            timeTableCellComponent={(props) => (
+              <StyledTimeTableCell
+                {...props}
+                schedulerHeight={schedulerHeight}
+              />
+            )}
+          />
           <ConfirmationDialog />
           <Toolbar />
           <DateNavigator />
@@ -83,7 +88,7 @@ const SchedulerComponent = () => {
             contentComponent={Content}
             commandButtonComponent={CommandButton}
           />
-          <DragDropProvider allowDrag={allowDrag} />
+          <DragDropProvider allowDrag={() => true} />
           <AppointmentForm />
         </Scheduler>
       )}
