@@ -6,7 +6,7 @@ import NewPassword from "./pages/redefine-password/new-password";
 import OkEmailPage from "./pages/email-check";
 import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
-import RegisterCourt from "./pages/court/registerCourt";
+import RegisterBlocks from "./pages/blocks/registerBlocks";
 
 function Rotas() {
   return (
@@ -18,7 +18,7 @@ function Rotas() {
         <Route path="/email-check" element={<OkEmailPage />} />
         <Route path="/wrong-code" element={<ErrorPage />} />
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
-        <Route path="/register-court" element={<RegisterCourt />} />
+        <Route path="/register-blocks" element={<RegisterBlocks />} />
         {/* <Route path="/listar-quadras" element={<ListarQuadras/>} /> */}
       </Routes>
     </Router>
