@@ -39,6 +39,7 @@
 }
 
 main{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     width: 58vw;
     height: 92vh;
     max-height: 92vh;
@@ -156,4 +157,7 @@ text > *{
     display: flex;
     flex-direction: row;
     justify-content: space-around; 
+}
+.selected-user{
+    background: rgba(247,228,223,0.4);
 }

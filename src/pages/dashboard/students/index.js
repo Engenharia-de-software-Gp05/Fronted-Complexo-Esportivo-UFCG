@@ -14,30 +14,31 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import './style.css';
 
-const pessoa = {
+const student = {
   name: 'vito',
   id: 1211111111,
   status: 'bloqueado',
   email: 'vito@gmail.com',
   phone: '(83) 99999999',
 };
-const pessoa1 = {
+const student1 = {
   name: 'paola',
   id: 1211111112,
   status: 'ativo',
   email: 'paola@gmail.com',
   phone: '(83) 88888888',
 };
-const pessoa2 = {
+const student2 = {
   name: 'samuel',
   id: 1211111113,
   status: 'ativo',
   email: 'samuel@gmail.com',
   phone: '(83) 77777777',
 };
-const data = [pessoa, pessoa1, pessoa2];
 
-export default function ListarAlunos() {
+const data = [student, student1, student2];
+
+export default function ListStudents() {
   const [selectedUser, setSelectedUser] = useState(data[0]);
   const [blockModalOpen, setBlockModalOpen] = useState(false);
   const [unblockModalOpen, setUnblockModalOpen] = useState(false);
@@ -63,7 +64,7 @@ export default function ListarAlunos() {
       <main>
         <h1>Lista de alunos</h1>
         <div>
-          <LeftSide onSelectUser={handleUserClick} />
+          <LeftSide onSelectUser={handleUserClick} selectedUser={selectedUser} />
           <RightSide
             selectedUser={selectedUser}
             onBlockConfirm={() => setBlockModalOpen(true)}
@@ -85,7 +86,7 @@ export default function ListarAlunos() {
   );
 }
 
-function LeftSide({ onSelectUser }) {
+function LeftSide({ onSelectUser, selectedUser }) {
   const [searchQuery, setSearchQuery] = useState('');
   const dataFiltered = filterData(searchQuery, data);
 
@@ -94,7 +95,11 @@ function LeftSide({ onSelectUser }) {
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <div className="users">
         {dataFiltered.map((d) => (
-          <div className="user" key={d.id} onClick={() => onSelectUser(d)}>
+          <div
+            className={`user ${selectedUser.id === d.id ? 'selected-user' : ''}`}
+            key={d.id}
+            onClick={() => onSelectUser(d)}
+          >
             <div className="icon-name">
               <PersonOutlineIcon />
             </div>
