@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Grid, Paper, Stack } from "@mui/material";
-import SchedulerComponent from "../../components/scheduler/schedulerLayout";
+import Scheduler from "../../components/scheduler/Scheduler";
 import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -33,7 +33,7 @@ const SchedulerPage = () => {
             <Divider />
           </Grid>
           <Grid item xs={12} md={10} height={"100%"}>
-            <SchedulerComponent />
+            <Scheduler />
           </Grid>
         </Paper>
       </Grid>
