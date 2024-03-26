@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import OTP from "./pages/otp";
 import RedefinirSenha from "./pages/redefinir-senha"
 import NovaSenha from "./pages/redefinir-senha/nova_senha"
-
+import ListarAlunos from "./pages/dashboard/alunos";
 
 function Rotas() {
   return (
@@ -12,6 +12,7 @@ function Rotas() {
         <Route path="/otp" element={<OTP />} />
         <Route path="/redefinir-senha" element={<RedefinirSenha />}/>
         <Route path="/nova-senha" element={<NovaSenha />}> </Route>
+        <Route path="/listar-alunos" element={<ListarAlunos />}> </Route>
       </Routes>
     </Router>
   );
