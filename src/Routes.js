@@ -7,19 +7,20 @@ import OkEmailPage from "./pages/email-check";
 import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
 import RegisterCourt from "./pages/court/registerCourt";
+import SchedulerPage from "./pages/scheduler/SchedulerPage";
 
 function Rotas() {
   return (
     <Router>
       <Routes>
         <Route path="/otp" element={<OTP />} />
+        <Route path="/scheduler" element={<SchedulerPage />} />
         <Route path="/redefine-password" element={<RedefinePassword />}/>
         <Route path="/new-password" element={<NewPassword />}> </Route>
         <Route path="/email-check" element={<OkEmailPage />} />
         <Route path="/wrong-code" element={<ErrorPage />} />
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
         <Route path="/register-court" element={<RegisterCourt />} />
-        {/* <Route path="/listar-quadras" element={<ListarQuadras/>} /> */}
       </Routes>
     </Router>
   );
