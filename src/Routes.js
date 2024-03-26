@@ -7,7 +7,7 @@ import OkEmailPage from "./pages/email-check";
 import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
 import RegisterCourt from "./pages/court/registerCourt";
-import SchedulerPage from "./pages/scheduler/SchedulerPage";
+import SchedulerPage from "./pages/scheduler";
 import ListStudents from "./pages/dashboard/students"
 function Rotas() {
   return (
