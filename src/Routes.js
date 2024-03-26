@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import OTP from "./pages/otp";
-import RedefinirSenha from "./pages/redefinir-senha";
-import NovaSenha from "./pages/redefinir-senha/nova_senha";
+import RedefinePassword from "./pages/redefine-password";
+import NewPassword from "./pages/redefine-password/new-password";
 import OkEmailPage from "./pages/email-check";
 import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
+import RegisterCourt from "./pages/court/registerCourt";
 import SchedulerPage from "./pages/scheduler/SchedulerPage";
 
 function Rotas() {
@@ -13,12 +14,13 @@ function Rotas() {
     <Router>
       <Routes>
         <Route path="/otp" element={<OTP />} />
-        <Route path="/redefinir-senha" element={<RedefinirSenha />} />
-        <Route path="/nova-senha" element={<NovaSenha />} />
+        <Route path="/scheduler" element={<SchedulerPage />} />
+        <Route path="/redefine-password" element={<RedefinePassword />}/>
+        <Route path="/new-password" element={<NewPassword />}> </Route>
         <Route path="/email-check" element={<OkEmailPage />} />
         <Route path="/wrong-code" element={<ErrorPage />} />
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
-        <Route path="/agendamentos" element={<SchedulerPage />} />
+        <Route path="/register-court" element={<RegisterCourt />} />
       </Routes>
     </Router>
   );
