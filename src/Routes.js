@@ -6,8 +6,7 @@ import NovaSenha from "./pages/redefinir-senha/nova_senha";
 import OkEmailPage from "./pages/email-check";
 import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
-import AgendamentosPage from "./pages/agendamentos/AgendamentosPage";
-import SchedulerComponent from "./components/scheduler/schedulerLayout";
+import SchedulerPage from "./pages/scheduler/SchedulerPage";
 
 function Rotas() {
   return (
@@ -19,8 +18,7 @@ function Rotas() {
         <Route path="/email-check" element={<OkEmailPage />} />
         <Route path="/wrong-code" element={<ErrorPage />} />
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
-        <Route path="/agendamentos" element={<AgendamentosPage />} />
-        <Route path="/agendamento" element={<SchedulerComponent />} />
+        <Route path="/agendamentos" element={<SchedulerPage />} />
       </Routes>
     </Router>
   );

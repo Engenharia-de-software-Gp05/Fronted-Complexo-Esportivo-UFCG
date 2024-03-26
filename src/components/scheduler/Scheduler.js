@@ -34,7 +34,7 @@ const StyledTimeTableCell = ({ schedulerHeight, ...props }) => {
   );
 };
 
-const SchedulerComponent = () => {
+const CustomScheduler = () => {
   const [data, setData] = React.useState(appointments);
   const schedulerRef = React.useRef(null);
   const [schedulerHeight, setSchedulerHeight] = React.useState(null);
@@ -96,4 +96,4 @@ const SchedulerComponent = () => {
   );
 };
 
-export default SchedulerComponent;
+export default CustomScheduler;

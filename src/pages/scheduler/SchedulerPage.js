@@ -4,7 +4,7 @@ import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-const AgendamentosPage = () => {
+const SchedulerPage = () => {
   return (
     <Box
       height={"100vh"}
@@ -41,4 +41,4 @@ const AgendamentosPage = () => {
   );
 };
 
-export default AgendamentosPage;
+export default SchedulerPage;
