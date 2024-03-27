@@ -20,7 +20,7 @@ function Rotas() {
         <Route path="/wrong-code" element={<ErrorPage />} />
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
         <Route path="/register-court" element={<RegisterCourt />} />
-        <Route path="/list-court" element={<ListCourts />} />
+        <Route path="/list-courts" element={<ListCourts />} />
       </Routes>
     </Router>
   );
