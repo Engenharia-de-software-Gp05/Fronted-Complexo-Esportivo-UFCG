@@ -31,13 +31,25 @@ export default function ListCourts() {
   };
 
   return (
-    <Container component="section" sx={{ width: 1100, height: 956, mt: 5 }}>
+    <Container
+      name="principal"
+      component="section"
+      item
+      xs={12}
+      sm={6}
+      style={{ maxWidth: 1000, maxHeight: 956, marginTop: 20 }}
+    >
       <CssBaseline>
-        <Typography variant="h3" sx={{ margin: 3 }}>
+        <Typography variant="h4" sx={{ margin: 3 }}>
           Lista de Quadras
         </Typography>
-        <Grid container spacing={2} style={{ maxHeight: 880 }}>
-          <Grid item xs={6}>
+        <Grid
+          name="gridPrincipa"
+          container
+          spacing={2}
+          style={{ maxHeight: 880 }}
+        >
+          <Grid name="gridSearch" item xs={12} sm={6} sx={{ p: 8 }}>
             <div>
               <SearchBarCustom
                 database={database}
@@ -47,9 +59,17 @@ export default function ListCourts() {
             </div>
           </Grid>
           <Grid
+            name="gridDescription"
             item
-            xs={6}
-            sx={{ width: "100%", height: "100%", bgcolor: "common.white" }}
+            sm={6}
+            xs={12}
+            sx={{
+              width: "100%",
+              height: "100%",
+              bgcolor: "common.white",
+              borderRadius: 5,
+              border: "1px solid #ccc",
+            }}
           >
             <Grid
               container
@@ -82,7 +102,7 @@ export default function ListCourts() {
                 </Typography>
                 <Typography>Um usuário pode marcar a cada:</Typography>
                 <Box sx={{ width: 305, height: "100%" }}>
-                  <ThreeButtons />
+                  <ThreeButtons sx={{ width: "100%" }} />
                 </Box>
                 <Box>
                   <ToggleButton />
