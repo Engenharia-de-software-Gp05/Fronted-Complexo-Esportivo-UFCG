@@ -8,7 +8,6 @@ import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
 import RegisterBlocks from "./pages/blocks/registerBlocks";
 import ListBlocks from "./pages/blocks/listBlocks";
-import Test from "./pages/blocks/test"
 
 function Rotas() {
   return (
