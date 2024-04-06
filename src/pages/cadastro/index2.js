@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import "./style.css"
+import InputAdornment from '@mui/material/InputAdornment';
 
 export default function cadastro() {
   const handleSubmit = (event) => {
@@ -27,7 +28,7 @@ export default function cadastro() {
       alert('Email inválido');
     }
 
-    if (senha!= confirmarSenha) {
+    if (senha!== confirmarSenha) {
       alert('As senhas não coincidem');
       return;
     }
@@ -94,6 +95,13 @@ export default function cadastro() {
               autoComplete="email"
               autoFocus
               placeholder="name@email.com"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    {/* <img src={EmailIcon} alt="Email" /> */}
+                  </InputAdornment>
+                ),
+              }}
             />
             <TextField
               margin="normal"
@@ -132,12 +140,11 @@ export default function cadastro() {
             />
             <Button
                 type="submit"
-                fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, borderRadius: '20px', padding: '6px 12px'}}
                 className='button'
             >
-                Criar
+                Criar Conta
             </Button>
             </Box>
         </Box>
