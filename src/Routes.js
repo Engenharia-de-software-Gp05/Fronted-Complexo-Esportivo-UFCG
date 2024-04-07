@@ -9,6 +9,7 @@ import RedefinePasswordCheck from "./pages/new-password-check";
 import RegisterCourt from "./pages/court/registerCourt";
 import SchedulerPage from "./pages/scheduler";
 import ListStudents from "./pages/dashboard/students"
+
 function Rotas() {
   return (
     <Router>
