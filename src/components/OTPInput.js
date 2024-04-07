@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Input as BaseInput } from "@mui/base/Input";
 import { Box, styled } from "@mui/system";
 
-function OTP({ separator, length, value, onChange }) {
+function OTP({ separator, length, value, onChange, onSubmit }) {
   const inputRefs = React.useRef(new Array(length).fill(null));
 
   const focusInput = (targetIndex) => {
@@ -90,6 +90,9 @@ function OTP({ separator, length, value, onChange }) {
         focusInput(currentIndex + 1);
       }
     }
+    if (currentIndex === length - 1 && currentValue !== "") {
+      onSubmit(currentValue);
+    }
   };
 
   const handleClick = (event, currentIndex) => {
@@ -126,6 +129,12 @@ function OTP({ separator, length, value, onChange }) {
 
       onChange(otpArray.join(""));
     }
+    if (
+      currentIndex === length - 1 &&
+      event.clipboardData.getData("text").trim() !== ""
+    ) {
+      onSubmit(value);
+    }
   };
 
   return (
@@ -160,11 +169,12 @@ function OTP({ separator, length, value, onChange }) {
 OTP.propTypes = {
   length: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   separator: PropTypes.node,
   value: PropTypes.string.isRequired,
 };
 
-export default function OTPInput() {
+export default function OTPInput({ onSubmit }) {
   const [otp, setOtp] = React.useState("");
 
   return (
@@ -175,7 +185,13 @@ export default function OTPInput() {
         gap: 2,
       }}
     >
-      <OTP separator={null} value={otp} onChange={setOtp} length={6} />
+      <OTP
+        separator={null}
+        value={otp}
+        onChange={setOtp}
+        onSubmit={onSubmit}
+        length={6}
+      />
       <span>Entered value: {otp}</span>
     </Box>
   );
