@@ -5,33 +5,32 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { Link, useNavigate } from 'react-router-dom';
 import "./style.css"
-import { Link } from 'react-router-dom';
-
-
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
+    event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.new("email");
-    const senha = data.new("senha");
+    const email = data.get("email");
+    const senha = data.get("senha");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const estudanteEmailRegex = /@estudante\.ufcg\.edu\.br$/;
+
     if (emailRegex.test(email) && estudanteEmailRegex.test(email)) {
-      alert('Email válido');
+      navigate('/scheduler');
     } else {
       alert('Email inválido');
     }
-
   };
 
   return (
     <main>
-        <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs">
         <CssBaseline/>
-        <Box 
-          className = "container"
-        >
+        <Box className="container">
           {/*logo ou uma imagem */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             LOGO AQUI
@@ -61,6 +60,7 @@ export default function LoginPage() {
               id="senha"
               label="Senha"
               name="senha"
+              type="password"
               autoComplete="senha"
               autoFocus
               placeholder="Digite sua senha aqui"
@@ -70,28 +70,28 @@ export default function LoginPage() {
                 type="submit"
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                className = "button"
+                className="button"
               >
                 Entrar
               </Button>
               <Button
                 component={Link}
-                to="/cadastro"
+                to="/sign-in"
                 variant="outlined"
                 sx={{ mt:3, mb:2 }}
-                className = "button"
+                className="button"
               >
                 Criar Conta
               </Button>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Link to="/redefinir-senha" style={{ textDecoration: 'none', mt: 2 }}>
+              <Link to="/redefine-password" style={{ textDecoration: 'none', mt: 2 }}>
                 Esqueceu a senha? Recuperar Senha
               </Link>
-              </Box>
-              </Box>
+            </Box>
+          </Box>
         </Box>
-        </Container>
+      </Container>
     </main>
   );
 }

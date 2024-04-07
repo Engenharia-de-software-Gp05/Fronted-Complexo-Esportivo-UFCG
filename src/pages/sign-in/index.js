@@ -1,15 +1,14 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import React from 'react';
+import { Button, Container, CssBaseline, TextField, Typography, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import "./style.css"
 import InputAdornment from '@mui/material/InputAdornment';
 
-export default function cadastro() {
-  const handleSubmit = (event) => {
+export default function SignIn() {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const nomeCompleto = data.get("nomeCompleto");
@@ -23,67 +22,68 @@ export default function cadastro() {
     const telefoneRegex = /^\(83\) 9\d{4}-\d{4}$/;
 
     if (emailRegex.test(email) && estudanteEmailRegex.test(email)) {
-      alert('Email válido');
-    } else {
-      alert('Email inválido');
-    }
+      if (senha !== confirmarSenha) {
+        alert('As senhas não coincidem');
+        return;
+      }
 
-    if (senha!== confirmarSenha) {
-      alert('As senhas não coincidem');
-      return;
-    }
-
-    if (!matriculaRegex.test(matricula)) {
-      alert('A matrícula deve conter exatamente 9 números.');
-      return;
-    }
-  
-    if (!telefoneRegex.test(telefone)) {
-      alert('O número de celular deve seguir o formato: (83) 9xxxx-xxxx');
-      return;
-    }
+      if (!matriculaRegex.test(matricula)) {
+        alert('A matrícula deve conter exatamente 9 números.');
+        return;
+      }
     
+      if (!telefoneRegex.test(telefone)) {
+        alert('O número de celular deve seguir o formato: (83) 9xxxx-xxxx');
+        return;
+      }
+
+      let registerStudentData = {
+        email: email,
+        name: nomeCompleto,
+        phoneNumber: telefone,
+        studentId: matricula,
+        password: senha
+      };
+      
+      navigate('/');
+    }
   };
-
-
 
   return (
     <main>
-        <Container component="section" maxWidth="xs">
+      <Container component="section" maxWidth="xs">
         <CssBaseline />
-        <Box
-            className="container"
-        >
-            <Typography component="h1" variant="h5" className="h1">
+        <Box className="container">
+          <Typography component="h1" variant="h5" className="h1">
             Cadastro
-            </Typography>
-            <Typography component="subtitle1">
-            Preencha os campos para criar sua conta. 
-            </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} className="container">
+          </Typography>
+          <Typography component="subtitle1">
+            Preencha os campos para criar sua conta.
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} className="container">
             <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="nomeCompleto"
-                label="Nome Completo"
-                name="nomeCompleto"
-                autoComplete="nomeCompleto"
-                autoFocus
-                className="textField"
-                placeholder="Nome Completo"
+              margin="normal"
+              required
+              fullWidth
+              id="nomeCompleto"
+              label="Nome Completo"
+              name="nomeCompleto"
+              autoComplete="nomeCompleto"
+              autoFocus
+              className="textField"
+              placeholder="Nome Completo"
             />
             <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="matricula"
-                label="Matrícula"
-                name="matricula"
-                autoComplete="matricula"
-                autoFocus
-                className="textField"
-                placeholder="123456789"
+              margin="normal"
+              required
+              fullWidth
+              id="matricula"
+              label="Matrícula"
+              name="matricula"
+              autoComplete="matricula"
+              autoFocus
+              className="textField"
+              placeholder="123456789"
             />
             <TextField
               margin="normal"
@@ -139,16 +139,16 @@ export default function cadastro() {
               placeholder="Confirme sua senha"
             />
             <Button
-                type="submit"
-                variant="contained"
-                sx={{ mt: 3, mb: 2, borderRadius: '20px', padding: '6px 12px'}}
-                className='button'
+              type="submit"
+              variant="contained"
+              sx={{ mt: 3, mb: 2, borderRadius: '20px', padding: '6px 12px'}}
+              className='button'
             >
-                Criar Conta
+              Criar Conta
             </Button>
-            </Box>
+          </Box>
         </Box>
-        </Container>
+      </Container>
     </main>
   );
 }

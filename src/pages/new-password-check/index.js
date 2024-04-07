@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import logo from "../../gifs/check.gif";
+import { useNavigate } from "react-router-dom";
 
 const RedefinePasswordCheck = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      navigate("/");
+    }, 2500);
+
+    return () => clearTimeout(timeoutId);
+  }, [navigate]);
 
   return (
     <Box
@@ -16,7 +26,7 @@ const RedefinePasswordCheck = () => {
       gap={5}
       margin={"25px"}
     >
-    <img src={logo} alt="erro" width={"180px"}/>
+      <img src={logo} alt="erro" width={"180px"} />
       <Typography
         h1
         width={"fit-content"}
