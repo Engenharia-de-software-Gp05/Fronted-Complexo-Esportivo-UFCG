@@ -6,6 +6,10 @@ import { useTheme } from "@emotion/react";
 const OTP = () => {
   const theme = useTheme();
 
+  const handleSubmit = (otpValue) => {
+    alert("Código: " + otpValue);
+  };
+
   return (
     <Box
       display={"flex"}
@@ -38,7 +42,7 @@ const OTP = () => {
       >
         Verifique seu email e insira o código de 6 dígitos enviado para você
       </Typography>
-      <OTPInput />
+      <OTPInput onSubmit={handleSubmit} />
     </Box>
   );
 };
