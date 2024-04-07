@@ -9,7 +9,8 @@ import RedefinePasswordCheck from "./pages/new-password-check";
 import RegisterCourt from "./pages/court/registerCourt";
 import SchedulerPage from "./pages/scheduler";
 import ListStudents from "./pages/dashboard/students"
-import SignIn from "./pages/sign-in/index2";
+import SignIn from "./pages/sign-in";
+import LoginPage from "./pages/login";
 
 function Rotas() {
   return (
@@ -25,6 +26,7 @@ function Rotas() {
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
         <Route path="/register-court" element={<RegisterCourt />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="" element={<LoginPage />} />
       </Routes>
     </Router>
   );

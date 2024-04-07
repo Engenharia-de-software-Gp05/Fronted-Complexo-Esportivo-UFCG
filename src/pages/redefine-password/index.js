@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import "./style-redefine.css"
+import "./style.css"
 
 export default function RecuperarSenha() {
   const [redirect, setRedirect] = React.useState(false);

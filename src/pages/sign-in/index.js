@@ -45,7 +45,7 @@ export default function SignIn() {
         password: senha
       };
       
-      navigate('/outra-pagina');
+      navigate('/');
     }
   };
 

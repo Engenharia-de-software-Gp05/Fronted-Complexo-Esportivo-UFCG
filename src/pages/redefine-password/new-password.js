@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Container, CssBaseline, Typography, Box, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import "./style-redefine.css";
+import "./style.css";
 
 export default function NewPassword() {
   const navigate = useNavigate();

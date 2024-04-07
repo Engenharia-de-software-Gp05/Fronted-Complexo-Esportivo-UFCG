@@ -10,7 +10,7 @@ const RedefinePasswordCheck = () => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      navigate("/outra-pagina");
+      navigate("/");
     }, 2500);
 
     return () => clearTimeout(timeoutId);

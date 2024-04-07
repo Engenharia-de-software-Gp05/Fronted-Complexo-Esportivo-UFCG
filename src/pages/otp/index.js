@@ -2,12 +2,14 @@ import React from "react";
 import OTPInput from "../../components/OTPInput";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 const OTP = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const handleSubmit = (otpValue) => {
-    alert("Código: " + otpValue);
+    navigate("/new-password");
   };
 
   return (
