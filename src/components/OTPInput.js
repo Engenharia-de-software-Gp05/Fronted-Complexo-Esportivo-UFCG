@@ -91,7 +91,7 @@ function OTP({ separator, length, value, onChange, onSubmit }) {
       }
     }
     if (currentIndex === length - 1 && currentValue !== "") {
-      onSubmit(currentValue);
+      onSubmit(value);
     }
   };
 
