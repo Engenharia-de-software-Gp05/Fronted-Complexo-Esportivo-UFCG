@@ -6,6 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const [error, setError] = React.useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,7 +46,31 @@ export default function SignIn() {
         password: senha
       };
       
-      navigate('/');
+      try {
+        const response = await fetch('http://localhost:8080/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          },
+          body: JSON.stringify(registerStudentData)
+        });
+      
+        if (response.status !== 201) {
+          throw new Error('Erro ao cadastrar');
+        }else{
+          navigate('/otp');
+        }
+      
+        const responseData = await response.json();
+        localStorage.setItem('token', responseData.token);
+
+        setError(null);
+      } catch (error) {
+        setError(error.message);
+      }
+
+
     }
   };
 
