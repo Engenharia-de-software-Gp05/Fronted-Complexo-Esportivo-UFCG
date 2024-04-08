@@ -19,6 +19,7 @@ import { Header, Content, CommandButton } from "./AppointmentTooltip";
 
 import appointments from "./Data";
 import AppointmentEditor from "./AppointmentEditor";
+import { Alert, Snackbar } from "@mui/material";
 
 const currentDate = "2024-03-24";
 
@@ -38,6 +39,15 @@ const CustomScheduler = () => {
   const [data, setData] = React.useState(appointments);
   const schedulerRef = React.useRef(null);
   const [schedulerHeight, setSchedulerHeight] = React.useState(null);
+  const [alert, setAlert] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlert(false);
+  };
 
   React.useEffect(() => {
     function updateSchedulerHeight() {
@@ -58,13 +68,23 @@ const CustomScheduler = () => {
 
   return (
     <div ref={schedulerRef} style={{ height: "100%" }}>
+      <Snackbar
+        open={alert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={handleClose}
+      >
+        <Alert severity="error" variant="filled" onClose={handleClose}>
+          Não foi possível criar o agendamento!
+        </Alert>
+      </Snackbar>
       {schedulerHeight && (
         <Scheduler data={data} height={schedulerHeight}>
           <ViewState
             defaultCurrentDate={currentDate}
-            defaultCurrentViewName="Month"
+            defaultCurrentViewName="Week"
           />
-          <AppointmentEditor datas={data} setData={setData} />
+          <AppointmentEditor setData={setData} setAlert={setAlert} />
           <IntegratedEditing />
           <WeekView startDayHour={9} endDayHour={19} />
           <MonthView
@@ -88,7 +108,6 @@ const CustomScheduler = () => {
             contentComponent={Content}
             commandButtonComponent={CommandButton}
           />
-          <DragDropProvider allowDrag={() => true} />
           <AppointmentForm />
         </Scheduler>
       )}
