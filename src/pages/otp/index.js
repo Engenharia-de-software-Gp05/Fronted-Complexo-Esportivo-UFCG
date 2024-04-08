@@ -19,7 +19,7 @@ const OTP = () => {
         },
         body: JSON.stringify({"confirmationCode": otpValue})
       });
-    
+      
       if (response.status !== 200) {
         throw new Error('Wrong code');
       }else{
