@@ -20,6 +20,7 @@ import { Header, Content, CommandButton } from "./AppointmentTooltip";
 import appointments from "./Data";
 import AppointmentEditor from "./AppointmentEditor";
 import { Alert, Snackbar } from "@mui/material";
+import { useTheme } from "@emotion/react";
 
 const currentDate = "2024-03-24";
 
@@ -40,6 +41,7 @@ const CustomScheduler = () => {
   const schedulerRef = React.useRef(null);
   const [schedulerHeight, setSchedulerHeight] = React.useState(null);
   const [alert, setAlert] = React.useState(false);
+  const [userId, setUserId] = React.useState(0);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -65,6 +67,25 @@ const CustomScheduler = () => {
       window.removeEventListener("resize", updateSchedulerHeight);
     };
   }, []);
+
+  const StyledAppointmentProps = ({ children, style, ...restProps }) => {
+    const theme = useTheme();
+
+    return (
+      <Appointments.Appointment
+        {...restProps}
+        style={{
+          ...style,
+          backgroundColor:
+            userId === restProps.data.userId
+              ? theme.palette.primary.main
+              : theme.palette.tertiary.main,
+        }}
+      >
+        {children}
+      </Appointments.Appointment>
+    );
+  };
 
   return (
     <div ref={schedulerRef} style={{ height: "100%" }}>
@@ -100,7 +121,7 @@ const CustomScheduler = () => {
           <DateNavigator />
           <ViewSwitcher />
           <TodayButton />
-          <Appointments />
+          <Appointments appointmentComponent={StyledAppointmentProps} />
           <AppointmentTooltip
             showOpenButton
             showDeleteButton
