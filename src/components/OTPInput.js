@@ -181,10 +181,6 @@ OTP.propTypes = {
 
 export default function OTPInput({ onSubmit }) {
   const [otp, setOtp] = React.useState("");
-  
-  const onSubmitEmit = () => {
-    onSubmit(otp)
-  };
 
   return (
     <Box
@@ -198,7 +194,7 @@ export default function OTPInput({ onSubmit }) {
         separator={null}
         value={otp}
         onChange={setOtp}
-        onSubmit={onSubmitEmit}
+        onSubmit={onSubmit}
         length={6}
       />
       <span>Entered value: {otp}</span>
