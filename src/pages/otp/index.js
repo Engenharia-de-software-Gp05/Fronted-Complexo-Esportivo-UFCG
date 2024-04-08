@@ -23,7 +23,7 @@ const OTP = () => {
       if (response.status !== 200) {
         throw new Error('Wrong code');
       }else{
-        navigate('/new-password');
+        navigate('/email-check');
       }
   
     } catch (error) {
