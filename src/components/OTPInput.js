@@ -79,20 +79,25 @@ function OTP({ separator, length, value, onChange, onSubmit }) {
         break;
       }
     }
+
     onChange((prev) => {
       const otpArray = prev.split("");
       const lastValue = currentValue[currentValue.length - 1];
       otpArray[indexToEnter] = lastValue;
-      return otpArray.join("");
-    });
-    if (currentValue !== "") {
-      if (currentIndex < length - 1) {
-        focusInput(currentIndex + 1);
+      const newOtp = otpArray.join("");
+
+      if (currentValue !== "") {
+        if (currentIndex < length - 1) {
+          focusInput(currentIndex + 1);
+        }
       }
-    }
-    if (currentIndex === length - 1 && currentValue !== "") {
-      onSubmit(value);
-    }
+
+      if (newOtp.length >= length) {
+        onSubmit(newOtp);
+      }
+
+      return newOtp;
+    });
   };
 
   const handleClick = (event, currentIndex) => {
@@ -130,7 +135,7 @@ function OTP({ separator, length, value, onChange, onSubmit }) {
       onChange(otpArray.join(""));
     }
     if (
-      currentIndex === length - 1 &&
+      currentIndex === length &&
       event.clipboardData.getData("text").trim() !== ""
     ) {
       onSubmit(value);
