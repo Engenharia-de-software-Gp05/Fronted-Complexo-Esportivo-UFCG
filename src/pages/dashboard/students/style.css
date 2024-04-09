@@ -85,7 +85,7 @@ main > div > div{
     flex-direction: column;
     align-items: left;
     justify-content: space-between;
-    height: 35vh;
+    /* height: 35vh; */
 }
 
 .user-details > h3{
