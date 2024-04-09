@@ -11,7 +11,7 @@ import "./style.css"
 export default function LoginPage() {
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
@@ -20,7 +20,27 @@ export default function LoginPage() {
     const estudanteEmailRegex = /@estudante\.ufcg\.edu\.br$/;
 
     if (emailRegex.test(email) && estudanteEmailRegex.test(email)) {
-      navigate('/scheduler');
+      try {
+        const response = await fetch("http://localhost:8080/auth/login/", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body:{
+            username: email,
+            password: senha
+          }
+        });
+      
+        if (response.status !== 200) {
+          throw new Error('Wrong code');
+        } else {
+          navigate('/scheduler');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
     } else {
       alert('Email inválido');
     }

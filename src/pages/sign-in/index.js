@@ -38,7 +38,7 @@ export default function SignIn() {
         return;
       }
 
-      let registerStudentData = {
+      let body = {
         email: email,
         name: nomeCompleto,
         phoneNumber: telefone,
@@ -53,7 +53,7 @@ export default function SignIn() {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
           },
-          body: JSON.stringify(registerStudentData)
+          body: JSON.stringify(body)
         });
       
         if (response.status !== 201) {

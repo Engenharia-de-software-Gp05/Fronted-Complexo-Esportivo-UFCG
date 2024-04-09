@@ -9,25 +9,24 @@ const OTP = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async(otpValue) => {
-    console.log(otpValue);
     try {
-      const response = await fetch('http://localhost:8080/auth/confirm/register', {
+      const response = await fetch(`http://localhost:8080/auth/confirm/register?confirmationCode=${otpValue}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + localStorage.getItem('token')
-        },
-        body: JSON.stringify({"confirmationCode": otpValue})
+        }
       });
-      
+    
       if (response.status !== 200) {
         throw new Error('Wrong code');
-      }else{
+      } else {
         navigate('/email-check');
       }
-  
     } catch (error) {
-      console.error(error);}
+      console.error(error);
+    }
+    
   };
 
   return (
