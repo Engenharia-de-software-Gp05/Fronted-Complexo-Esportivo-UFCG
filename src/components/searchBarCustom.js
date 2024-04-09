@@ -39,7 +39,7 @@ const SearchBarCustom = ({ database, searchFor, onSelectItem }) => {
           fullWidth
           value={query}
           onChange={handleSearch}
-          style={{ marginBottom: '14px'}}
+          style={{ background: "#FFF8F6" }}
           InputProps={{
             startAdornment: (
               <InputAdornment position='start'>
@@ -60,6 +60,7 @@ const SearchBarCustom = ({ database, searchFor, onSelectItem }) => {
                 key={item.id} 
                 onClick={() => handleSelectedItem(item)}
                 selected={selectedItem === item.id}
+                style={{ background: "#FFF8F6" }}
               >
                 <ListItemIcon>
                   <PersonOutlineIcon />
