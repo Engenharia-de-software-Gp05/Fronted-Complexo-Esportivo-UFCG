@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -6,12 +6,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link, useNavigate } from 'react-router-dom';
-import "./style.css"
+import axios from 'axios'; // Importe o Axios
+import "./style.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
@@ -21,19 +22,15 @@ export default function LoginPage() {
 
     if (emailRegex.test(email) && estudanteEmailRegex.test(email)) {
       try {
-        const response = await fetch("http://localhost:8080/auth/login/", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body:{
-            username: email,
-            password: senha
-          }
+        // Enviar solicitação POST usando Axios
+        const response = await axios.post("http://localhost:8080/auth/login/", {
+          username: email,
+          password: senha
         });
-      
+
+        console.log(email, senha)
         if (response.status !== 200) {
-          throw new Error('Wrong code');
+          throw new Error('login error');
         } else {
           navigate('/scheduler');
         }
@@ -58,7 +55,7 @@ export default function LoginPage() {
           <Typography component="h1" variant="h5" className="h1">
             Agende com tranquilidade o seu horário!
           </Typography>
-          <Typography component= "subtitle1">
+          <Typography component="subtitle1">
             Todas as quadras da UFCG disponíveis para agendamento fácil pelo site, acesse ou crie sua conta!
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} className="container">
