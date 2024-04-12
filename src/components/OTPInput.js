@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Input as BaseInput } from "@mui/base/Input";
 import { Box, styled } from "@mui/system";
 
-function OTP({ separator, length, value, onChange }) {
+function OTP({ separator, length, value, onChange, onSubmit }) {
   const inputRefs = React.useRef(new Array(length).fill(null));
 
   const focusInput = (targetIndex) => {
@@ -79,17 +79,25 @@ function OTP({ separator, length, value, onChange }) {
         break;
       }
     }
+
     onChange((prev) => {
       const otpArray = prev.split("");
       const lastValue = currentValue[currentValue.length - 1];
       otpArray[indexToEnter] = lastValue;
-      return otpArray.join("");
-    });
-    if (currentValue !== "") {
-      if (currentIndex < length - 1) {
-        focusInput(currentIndex + 1);
+      const newOtp = otpArray.join("");
+
+      if (currentValue !== "") {
+        if (currentIndex < length - 1) {
+          focusInput(currentIndex + 1);
+        }
       }
-    }
+
+      if (newOtp.length >= length) {
+        onSubmit(newOtp);
+      }
+
+      return newOtp;
+    });
   };
 
   const handleClick = (event, currentIndex) => {
@@ -126,6 +134,12 @@ function OTP({ separator, length, value, onChange }) {
 
       onChange(otpArray.join(""));
     }
+    if (
+      currentIndex === length &&
+      event.clipboardData.getData("text").trim() !== ""
+    ) {
+      onSubmit(value);
+    }
   };
 
   return (
@@ -160,11 +174,12 @@ function OTP({ separator, length, value, onChange }) {
 OTP.propTypes = {
   length: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   separator: PropTypes.node,
   value: PropTypes.string.isRequired,
 };
 
-export default function OTPInput() {
+export default function OTPInput({ onSubmit }) {
   const [otp, setOtp] = React.useState("");
 
   return (
@@ -175,7 +190,13 @@ export default function OTPInput() {
         gap: 2,
       }}
     >
-      <OTP separator={null} value={otp} onChange={setOtp} length={6} />
+      <OTP
+        separator={null}
+        value={otp}
+        onChange={setOtp}
+        onSubmit={onSubmit}
+        length={6}
+      />
       <span>Entered value: {otp}</span>
     </Box>
   );
