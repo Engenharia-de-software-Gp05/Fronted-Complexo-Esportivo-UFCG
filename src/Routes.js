@@ -7,7 +7,10 @@ import OkEmailPage from "./pages/email-check";
 import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
 import RegisterCourt from "./pages/court/registerCourt";
+import ListCourts from "./pages/court/listCourts"
 import SchedulerPage from "./pages/scheduler";
+import RegisterEmployee from "./pages/employee/registerEmployee"
+import ListEmployees from "./pages/employee/listEmployees"
 import ListStudents from "./pages/dashboard/students"
 import SignIn from "./pages/sign-in";
 import LoginPage from "./pages/login";
@@ -25,6 +28,9 @@ function Rotas() {
         <Route path="/wrong-code" element={<ErrorPage />} />
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
         <Route path="/register-court" element={<RegisterCourt />} />
+        <Route path="/list-courts" element={<ListCourts />} />
+        <Route path="/register-employee" element={<RegisterEmployee />} />
+        <Route path="/list-employees" element={<ListEmployees />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="" element={<LoginPage />} />
       </Routes>

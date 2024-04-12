@@ -36,69 +36,68 @@ export default function CadastrarQuadra() {
   };
 
   return (
-    <main>
-      <Container component="section" maxWidth="xs">
-        <CssBaseline />
-        <Box className="container" sx={{ marginBottom: '20px' }}>
-          <Typography variant="h5">Cadastro de Quadras</Typography>
+    <Container component="section" maxWidth="xs">
+      <CssBaseline />
+      <Box sx={{ marginBottom: '20px', display: 'flex', justifyContent: 'center' }}>
+        <Typography variant='h5'>Cadastro de Quadras</Typography>
+      </Box>
+
+      <form onSubmit={handleSubmit}>
+        <TextField
+          required
+          fullWidth
+          margin="normal"
+          label="Nome"
+          placeholder="Quadra de vôlei"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SportsVolleyballIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Foto"
+          placeholder="Insira aqui a foto"
+          type="file"
+          onChange={handleChangePhoto}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <IosShareIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          multiline
+          rows={5}
+          label="Descrição"
+          placeholder="Descreva brevemente a quadra."
+          onChange={handleChangeDescription}
+          helperText={`${description.length}/500`}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <HighlightOffIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Typography variant="caption">Período de Agendamento</Typography>
+        <Typography>Um usuário pode marcar a cada:</Typography>
+        <Box>
+          <ThreeButtons />
         </Box>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            required
-            fullWidth
-            margin="normal"
-            label="Nome"
-            placeholder="Quadra de vôlei"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SportsVolleyballIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Foto"
-            placeholder="Insira aqui a foto"
-            type="file"
-            onChange={handleChangePhoto}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <IosShareIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            multiline
-            rows={5}
-            label="Descrição"
-            placeholder="Descreva brevemente a quadra."
-            onChange={handleChangeDescription}
-            helperText={`${description.length}/500`}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <HighlightOffIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Typography variant="caption">Período de Agendamento</Typography>
-          <Typography>Um usuário pode marcar a cada:</Typography>
-          <Box>
-            <ThreeButtons />
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <ButtonRegister />
-          </Box>
-        </form>
-      </Container>
-    </main>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <ButtonRegister />
+        </Box>
+      </form>
+    </Container>
   );
 }
