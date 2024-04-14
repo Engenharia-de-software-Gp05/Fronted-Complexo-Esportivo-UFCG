@@ -63,6 +63,7 @@ export default function ListStudents() {
     <div className="container">
       <main>
         <h1>Lista de alunos</h1>
+        <br></br>
         <div>
           <LeftSide onSelectUser={handleUserClick} selectedUser={selectedUser} />
           <RightSide
