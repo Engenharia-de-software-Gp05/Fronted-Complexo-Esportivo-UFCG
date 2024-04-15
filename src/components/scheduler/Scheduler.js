@@ -19,7 +19,7 @@ import { Header, Content, CommandButton } from "./AppointmentTooltip";
 
 import appointments from "./Data";
 import AppointmentEditor from "./AppointmentEditor";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Snackbar, Typography } from "@mui/material";
 import { useTheme } from "@emotion/react";
 
 const currentDate = "2024-03-24";
@@ -87,6 +87,26 @@ const CustomScheduler = () => {
     );
   };
 
+  const CustomTooltipLayout = ({ children, ...restProps }) => {
+    const [appointmentUserId, setAppointmentUserId] = React.useState(null);
+
+    React.useEffect(() => {
+      if (restProps.appointmentMeta && restProps.appointmentMeta.data) {
+        setAppointmentUserId(restProps.appointmentMeta.data.userId);
+      }
+    }, [restProps.appointmentMeta]);
+
+    return (
+      <>
+        {userId === appointmentUserId && (
+          <AppointmentTooltip.Layout {...restProps}>
+            {children}
+          </AppointmentTooltip.Layout>
+        )}
+      </>
+    );
+  };
+
   return (
     <div ref={schedulerRef} style={{ height: "100%" }}>
       <Snackbar
@@ -125,6 +145,7 @@ const CustomScheduler = () => {
           <AppointmentTooltip
             showOpenButton
             showDeleteButton
+            layoutComponent={CustomTooltipLayout}
             headerComponent={Header}
             contentComponent={Content}
             commandButtonComponent={CommandButton}
