@@ -19,7 +19,7 @@ import { Header, Content, CommandButton } from "./AppointmentTooltip";
 
 import appointments from "./Data";
 import AppointmentEditor from "./AppointmentEditor";
-import { Alert, Snackbar, Typography } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 import { useTheme } from "@emotion/react";
 
 const currentDate = "2024-03-24";
