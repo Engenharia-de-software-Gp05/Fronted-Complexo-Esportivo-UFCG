@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { AppointmentTooltip } from "@devexpress/dx-react-scheduler-material-ui";
-import IconButton from "@mui/material/IconButton";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Room from "@mui/icons-material/Room";
@@ -33,12 +31,6 @@ const StyledAppointmentTooltipHeader = styled(AppointmentTooltip.Header)(
     },
   }),
 );
-
-const StyledIconButton = styled(IconButton)(() => ({
-  [`&.${classes.commandButton}`]: {
-    backgroundColor: "rgba(255,255,255,0.65)",
-  },
-}));
 
 const StyledGrid = styled(Grid)(() => ({
   [`&.${classes.textCenter}`]: {
