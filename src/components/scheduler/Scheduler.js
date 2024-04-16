@@ -151,6 +151,7 @@ const CustomScheduler = () => {
             commandButtonComponent={CommandButton}
           />
           <AppointmentForm />
+          <DragDropProvider allowDrag={(data) => userId === data.userId} />
         </Scheduler>
       )}
     </div>

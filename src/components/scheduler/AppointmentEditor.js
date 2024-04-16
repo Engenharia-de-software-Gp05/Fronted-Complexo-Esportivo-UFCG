@@ -2,21 +2,25 @@ import { EditingState } from "@devexpress/dx-react-scheduler";
 
 const AppointmentEditor = ({ setData, setAlert }) => {
   const checkOverlap = (newAppointment, existingAppointments) => {
-    const sameDayAppointments = existingAppointments.filter(
-      (appointment) =>
+    const appointmentId = Object.keys(newAppointment)[0];
+    const sameDayAppointments = existingAppointments.filter((appointment) => {
+      return (
+        appointment.id !== Number(appointmentId) &&
         appointment.startDate.getFullYear() ===
-          newAppointment.startDate.getFullYear() &&
+          newAppointment[appointmentId].startDate.getFullYear() &&
         appointment.startDate.getMonth() ===
-          newAppointment.startDate.getMonth() &&
+          newAppointment[appointmentId].startDate.getMonth() &&
         appointment.startDate.getDate() ===
-          newAppointment.startDate.getDate() &&
-        appointment.endDate.getDate() === newAppointment.endDate.getDate(),
-    );
+          newAppointment[appointmentId].startDate.getDate() &&
+        appointment.endDate.getDate() ===
+          newAppointment[appointmentId].endDate.getDate()
+      );
+    });
 
     const alertBool = sameDayAppointments.some(
       (appointment) =>
-        appointment.startDate < newAppointment.endDate &&
-        appointment.endDate > newAppointment.startDate,
+        appointment.startDate < newAppointment[appointmentId].endDate &&
+        appointment.endDate > newAppointment[appointmentId].startDate,
     );
     setAlert(alertBool);
     return alertBool;
@@ -41,6 +45,8 @@ const AppointmentEditor = ({ setData, setAlert }) => {
               ? { ...appointment, ...changed[appointment.id] }
               : appointment,
           );
+        } else {
+          setAlert(true);
         }
       }
       if (deleted !== undefined) {
