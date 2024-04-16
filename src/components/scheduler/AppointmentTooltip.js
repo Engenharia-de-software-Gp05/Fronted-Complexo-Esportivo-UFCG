@@ -94,18 +94,9 @@ const Header = ({ children, appointmentData, ...restProps }) => {
           justifyContent={"center"}
           alignContent={"center"}
         >
-          <Typography>Image não carregada.</Typography>
+          <Typography>Imagem não carregada.</Typography>
         </Box>
       )}
-
-      <StyledIconButton
-        /* eslint-disable-next-line no-alert */
-        onClick={() => alert(JSON.stringify(appointmentData))}
-        className={classes.commandButton}
-        size="large"
-      >
-        <MoreIcon />
-      </StyledIconButton>
     </StyledAppointmentTooltipHeader>
   );
 };
