@@ -21,6 +21,7 @@ import appointments from "./Data";
 import AppointmentEditor from "./AppointmentEditor";
 import { Alert, Snackbar } from "@mui/material";
 import { useTheme } from "@emotion/react";
+import Layout from "./AppointmentForm";
 
 const currentDate = "2024-03-24";
 
@@ -125,7 +126,11 @@ const CustomScheduler = () => {
             defaultCurrentDate={currentDate}
             defaultCurrentViewName="Week"
           />
-          <AppointmentEditor setData={setData} setAlert={setAlert} />
+          <AppointmentEditor
+            setData={setData}
+            setAlert={setAlert}
+            userId={userId}
+          />
           <IntegratedEditing />
           <WeekView startDayHour={9} endDayHour={19} />
           <MonthView
@@ -150,7 +155,7 @@ const CustomScheduler = () => {
             contentComponent={Content}
             commandButtonComponent={CommandButton}
           />
-          <AppointmentForm />
+          <AppointmentForm basicLayoutComponent={Layout} />
           <DragDropProvider allowDrag={(data) => userId === data.userId} />
         </Scheduler>
       )}
