@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Fronted-Complexo-Esportivo-UFCG/static/css/main.04d48bfc.css",
+    "main.js": "/Fronted-Complexo-Esportivo-UFCG/static/js/main.e2a8e7d9.js",
+    "static/media/check.gif": "/Fronted-Complexo-Esportivo-UFCG/static/media/check.d1d274a445891bfcec41.gif",
+    "static/media/error.gif": "/Fronted-Complexo-Esportivo-UFCG/static/media/error.6caabaffdf5cf5a79340.gif",
+    "index.html": "/Fronted-Complexo-Esportivo-UFCG/index.html",
+    "main.04d48bfc.css.map": "/Fronted-Complexo-Esportivo-UFCG/static/css/main.04d48bfc.css.map",
+    "main.e2a8e7d9.js.map": "/Fronted-Complexo-Esportivo-UFCG/static/js/main.e2a8e7d9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.04d48bfc.css",
+    "static/js/main.e2a8e7d9.js"
+  ]
+}
