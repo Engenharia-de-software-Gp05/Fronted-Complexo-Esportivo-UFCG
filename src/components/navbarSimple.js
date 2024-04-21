@@ -83,7 +83,15 @@ export default function PersistentDrawerLeft() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar
+        position="fixed"
+        open={open}
+        sx={{
+          backgroundColor: "#FFF0F5",
+          color: "inherit",
+          boxShadow: "none",
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -109,7 +117,11 @@ export default function PersistentDrawerLeft() {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
+        <DrawerHeader
+          sx={{
+            backgroundColor: "#FFF0F5",
+          }}
+        >
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -118,7 +130,11 @@ export default function PersistentDrawerLeft() {
             )}
           </IconButton>
         </DrawerHeader>
-        <List>
+        <List
+          sx={{
+            backgroundColor: "#FFF0F5",
+          }}
+        >
           {[
             "Agendar",
             "Meus agendamentos",
@@ -137,6 +153,7 @@ export default function PersistentDrawerLeft() {
               >
                 <ListItemIcon
                   sx={{
+                    color: "inherit",
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",

@@ -103,7 +103,15 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar
+        position="fixed"
+        open={open}
+        sx={{
+          boxShadow: "none",
+          backgroundColor: "#FFFAFA",
+          color: "inherit",
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -120,7 +128,11 @@ export default function MiniDrawer() {
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+        <DrawerHeader
+          sx={{
+            backgroundColor: "#FFFAFA",
+          }}
+        >
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -129,7 +141,11 @@ export default function MiniDrawer() {
             )}
           </IconButton>
         </DrawerHeader>
-        <List>
+        <List
+          sx={{
+            backgroundColor: "#FFFAFA",
+          }}
+        >
           {[
             "Agendar",
             "Meus agendamentos",
@@ -148,6 +164,7 @@ export default function MiniDrawer() {
               >
                 <ListItemIcon
                   sx={{
+                    color: "inherit",
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
