@@ -51,13 +51,13 @@ export default function SignIn() {
 
   return (
     <main>
+      <CssBaseline />
       <Container component="section" maxWidth="xs">
-        <CssBaseline />
-        <Box className="container">
-          <Typography component="h1" variant="h5" className="h1">
+        <Box className="container" style={{ marginTop: '120px' }}>
+          <Typography component="h1" variant="h4" className="h1">
             Cadastro
           </Typography>
-          <Typography component="subtitle1">
+          <Typography component="subtitle1" style={{ marginBottom: 20}}>
             Preencha os campos para criar sua conta.
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} className="container">
