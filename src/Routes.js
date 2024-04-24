@@ -14,6 +14,8 @@ import ListEmployees from "./pages/employee/listEmployees";
 import ListStudents from "./pages/dashboard/students";
 import SignIn from "./pages/sign-in";
 import LoginPage from "./pages/login";
+import SideBar from "./pages/navbar";
+import SimpleSideBar from "./pages/simple-navbar";
 import CreatePage from "./components/scheduler/teste";
 import Layout from "./components/Layout";
 
@@ -36,6 +38,8 @@ function Rotas() {
         <Route path="/list-employees" element={<ListEmployees />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="" element={<LoginPage />} />
+        <Route path="/navbar" element={<SideBar />} />
+        <Route path="/simple-navbar" element={<SimpleSideBar />} />
       </Routes>
     </Router>
   );
