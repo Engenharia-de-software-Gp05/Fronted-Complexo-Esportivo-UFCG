@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "dev": "react-scripts dev"
+    "dev": "react-scripts dev",
+    "build": "react-scripts build"
   },
   "dependencies": {
     "@devexpress/dx-react-scheduler": "^4.0.8",
@@ -43,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "prettier": "^3.2.5",
     "prettier-eslint": "^16.3.0"
   }
