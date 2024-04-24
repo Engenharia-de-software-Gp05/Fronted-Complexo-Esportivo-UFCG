@@ -52,12 +52,12 @@ export default function SignIn() {
   return (
     <main>
       <CssBaseline />
-      <Container component="section" maxWidth="xs">
-        <Box className="container" style={{ marginTop: '120px' }}>
+      <Container component="section" maxWidth="xs" style={{ maxHeight: 780}}>
+        <Box className="container" style={{ marginTop: '10px' }}>
           <Typography component="h1" variant="h4" className="h1">
             Cadastro
           </Typography>
-          <Typography component="subtitle1" style={{ marginBottom: 20}}>
+          <Typography component="subtitle1">
             Preencha os campos para criar sua conta.
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} className="container">
