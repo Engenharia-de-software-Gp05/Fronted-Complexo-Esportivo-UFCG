@@ -1,43 +1,75 @@
-import { Box, Button, Divider, Grid, Paper, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Scheduler from "../../components/scheduler/Scheduler";
-import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useTheme } from "@emotion/react";
+import styled from "@emotion/styled/macro";
+import { useState } from "react";
+import SearchBarCustom from "../../components/searchBarCustom";
+
+const database = [
+  {
+    courtId: 0,
+    courtName: "Quadra de Tênis",
+  },
+  {
+    courtId: 1,
+    courtName: "Quadra de Vôlei",
+  },
+];
 
 const SchedulerPage = () => {
+  const theme = useTheme();
+  const [selectBlock, setSelectBlock] = useState(null);
+
+  const handleBlockSelect = (value) => {
+    setSelectBlock(value);
+  };
+
   return (
-    <Box
-      height={"100vh"}
-      display={"flex"}
-      alignContent={"center"}
-      justifyContent={"center"}
+    <Grid
+      container
+      minHeight={"100vh"}
+      justifyContent="center"
       alignItems={"center"}
-      padding={"2%"}
     >
-      <Grid
-        container
-        width={"95%"}
-        height={"100%"}
-        alignContent={"center"}
-        justifyContent={"center"}
-        spacing={2}
-      >
-        <Paper component={Grid} container item height={"100%"}>
-          <Grid item xs={12} md={2}>
-            <Stack display={"flex"} alignItems={"center"}>
-              <Button variant="contained">Agendar</Button>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <CalendarPicker />
-              </LocalizationProvider>
-            </Stack>
-            <Divider />
-          </Grid>
-          <Grid item xs={12} md={10} height={"100%"}>
-            <Scheduler />
+      <Grid item xs={12} md={6} width={"80%"}>
+        <Paper sx={{ backgroundColor: theme.palette.surface.inverse_on }}>
+          <Grid container direction="column" padding={4} spacing={2}>
+            <Grid item>
+              <Typography
+                fontWeight={600}
+                fontSize={{ xs: "1.5em", md: "3em" }}
+                color={theme.palette.primary.main}
+                padding={2}
+                variant="h1"
+                align="left"
+              >
+                Solicitar Agendamento
+              </Typography>
+            </Grid>
+            <Grid item container spacing={2}>
+              <Grid item xs={12} md>
+                <SearchBarCustom
+                  database={database}
+                  searchFor={"courtName"}
+                  onSelectItem={handleBlockSelect}
+                />
+              </Grid>
+              <Grid item xs={12} md>
+                <Scheduler selectItem={selectBlock} />
+              </Grid>
+            </Grid>
           </Grid>
         </Paper>
       </Grid>
-    </Box>
+    </Grid>
   );
 };
 

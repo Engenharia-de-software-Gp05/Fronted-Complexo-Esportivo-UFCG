@@ -7,23 +7,26 @@ import OkEmailPage from "./pages/email-check";
 import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
 import RegisterCourt from "./pages/court/registerCourt";
-import ListCourts from "./pages/court/listCourts"
+import ListCourts from "./pages/court/listCourts";
 import SchedulerPage from "./pages/scheduler";
-import RegisterEmployee from "./pages/employee/registerEmployee"
-import ListEmployees from "./pages/employee/listEmployees"
-import ListStudents from "./pages/dashboard/students"
+import RegisterEmployee from "./pages/employee/registerEmployee";
+import ListEmployees from "./pages/employee/listEmployees";
+import ListStudents from "./pages/dashboard/students";
 import SignIn from "./pages/sign-in";
 import LoginPage from "./pages/login";
+import CreatePage from "./components/scheduler/teste";
+import Layout from "./components/Layout";
 
 function Rotas() {
   return (
     <Router>
       <Routes>
         <Route path="/otp" element={<OTP />} />
-        <Route path="/list-students" element={<ListStudents />}> </Route>
-        <Route path="/scheduler" element={<SchedulerPage />} />
-        <Route path="/redefine-password" element={<RedefinePassword />}/>
-        <Route path="/new-password" element={<NewPassword />}> </Route>
+        <Route path="/list-students" element={<ListStudents />} />
+        <Route path="/teste" element={<CreatePage />} />
+        <Route path="/teste2" element={<Layout />} />
+        <Route path="/redefine-password" element={<RedefinePassword />} />
+        <Route path="/new-password" element={<NewPassword />} />
         <Route path="/email-check" element={<OkEmailPage />} />
         <Route path="/wrong-code" element={<ErrorPage />} />
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />

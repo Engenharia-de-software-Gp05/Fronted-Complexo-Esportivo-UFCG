@@ -1,99 +1,111 @@
-import * as React from "react";
 import {
-  Scheduler,
-  MonthView,
-  WeekView,
-  Appointments,
-  ViewSwitcher,
-  Toolbar,
-  TodayButton,
-  AppointmentTooltip,
-  ConfirmationDialog,
-  AppointmentForm,
-  DateNavigator,
-  DragDropProvider,
-} from "@devexpress/dx-react-scheduler-material-ui";
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Grid,
+  Grow,
+  TextField,
+  Typography,
+} from "@mui/material";
+import * as React from "react";
+import { useState } from "react";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-import { IntegratedEditing, ViewState } from "@devexpress/dx-react-scheduler";
-import { Header, Content, CommandButton } from "./AppointmentTooltip";
+const Scheduler = ({ selectItem }) => {
+  const [isButtonsAvailable, setIsButtonAvailable] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
 
-import appointments from "./Data";
-import AppointmentEditor from "./AppointmentEditor";
-
-const currentDate = "2024-03-24";
-
-const StyledTimeTableCell = ({ schedulerHeight, ...props }) => {
-  const schedulerHeaderHeight = 100;
-  return (
-    <MonthView.TimeTableCell
-      {...props}
-      style={{
-        height: `${(schedulerHeight - schedulerHeaderHeight) / 6}px`,
-      }}
-    />
-  );
-};
-
-const CustomScheduler = () => {
-  const [data, setData] = React.useState(appointments);
-  const schedulerRef = React.useRef(null);
-  const [schedulerHeight, setSchedulerHeight] = React.useState(null);
-
-  React.useEffect(() => {
-    function updateSchedulerHeight() {
-      if (schedulerRef.current) {
-        const height = schedulerRef.current.clientHeight;
-        setSchedulerHeight(height);
-      }
+  const handleDateChange = (newValue) => {
+    setSelectedDate(newValue);
+    if (!newValue) {
+      setIsButtonAvailable(false);
     }
+    setIsButtonAvailable(true);
+  };
 
-    updateSchedulerHeight();
+  const renderTimeButtons = () => {
+    return Array.from(
+      { length: Math.ceil((20 * 60 - 8 * 60 + 1) / 90) },
+      (_, index) => {
+        const hour = 8 * 60 + index * 90;
+        const paddedHour = Math.floor(hour / 60)
+          .toString()
+          .padStart(2, "0");
+        const paddedMinute = (hour % 60).toString().padStart(2, "0");
 
-    window.addEventListener("resize", updateSchedulerHeight);
-
-    return () => {
-      window.removeEventListener("resize", updateSchedulerHeight);
-    };
-  }, []);
+        return (
+          <Grid item key={index}>
+            <Grow
+              in={isButtonsAvailable}
+              unmountOnExit
+              style={{ transformOrigin: "0 0 0" }}
+              {...(isButtonsAvailable ? { timeout: 1000 } : {})}
+            >
+              <Button variant="outlined" xs={6} sm={3} md={2}>
+                {`${paddedHour}:${paddedMinute}`}
+              </Button>
+            </Grow>
+          </Grid>
+        );
+      },
+    );
+  };
 
   return (
-    <div ref={schedulerRef} style={{ height: "100%" }}>
-      {schedulerHeight && (
-        <Scheduler data={data} height={schedulerHeight}>
-          <ViewState
-            defaultCurrentDate={currentDate}
-            defaultCurrentViewName="Month"
-          />
-          <AppointmentEditor datas={data} setData={setData} />
-          <IntegratedEditing />
-          <WeekView startDayHour={9} endDayHour={19} />
-          <MonthView
-            timeTableCellComponent={(props) => (
-              <StyledTimeTableCell
-                {...props}
-                schedulerHeight={schedulerHeight}
+    <Card>
+      <CardMedia
+        component={"img"}
+        image={"https://via.placeholder.com/554x396"}
+      />
+      <CardContent>
+        <Grid container spacing={2} justifyContent={"center"}>
+          <Grid item xs={12}>
+            <Typography variant="h6">
+              {selectItem ? selectItem.courtName : "Title"}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant="body1">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor
+            </Typography>
+          </Grid>
+          <Grid item alignItems={"center"}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                renderInput={(inputProps) => (
+                  <TextField {...inputProps} variant="outlined" />
+                )}
+                value={selectedDate}
+                onChange={handleDateChange}
+                views={["day"]}
+                inputFormat="DD/MM/YYYY"
+                disablePast
+                maxDate={
+                  new Date(
+                    new Date().getFullYear(),
+                    new Date().getMonth() + 1,
+                    0,
+                  )
+                }
               />
-            )}
-          />
-          <ConfirmationDialog />
-          <Toolbar />
-          <DateNavigator />
-          <ViewSwitcher />
-          <TodayButton />
-          <Appointments />
-          <AppointmentTooltip
-            showOpenButton
-            showDeleteButton
-            headerComponent={Header}
-            contentComponent={Content}
-            commandButtonComponent={CommandButton}
-          />
-          <DragDropProvider allowDrag={() => true} />
-          <AppointmentForm />
-        </Scheduler>
-      )}
-    </div>
+            </LocalizationProvider>
+          </Grid>
+          <Grid item>
+            <Grid container justifyContent="center" spacing={3}>
+              {renderTimeButtons()}
+            </Grid>
+          </Grid>
+        </Grid>
+      </CardContent>
+      <CardActions sx={{ justifyContent: "center" }}>
+        <Button variant="contained">Agendar</Button>
+      </CardActions>
+    </Card>
   );
 };
 
-export default CustomScheduler;
+export default Scheduler;
