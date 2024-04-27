@@ -25,14 +25,31 @@ export default function CadastrarQuadra() {
     setPhoto(selectedPhoto);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({
-      fullName,
-      photo,
-      description,
-      reserveDay
-    });
+    try {
+      const formData = new FormData();
+      formData.append('fullName', fullName);
+      formData.append('photo', photo);
+      formData.append('description', description);
+      formData.append('reserveDay', reserveDay);
+
+      const response = await fetch('/rota-para-salvar-quadra', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        setFullName('');
+        setPhoto(null);
+        setDescription('');
+        setReserveDay(7);
+      } else {
+        console.error('Falha ao cadastrar quadra:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Erro ao cadastrar quadra:', error);
+    }
   };
 
   return (
