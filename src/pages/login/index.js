@@ -24,7 +24,8 @@ export default function LoginPage() {
       password: password 
     } 
     try {
-      const response = await fetch('http://localhost:8080/auth/login', {
+      const url = window.REACT_APP_API_URL + 'auth/login';
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

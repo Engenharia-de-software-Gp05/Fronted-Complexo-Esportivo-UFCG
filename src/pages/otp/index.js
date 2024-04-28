@@ -10,7 +10,8 @@ const OTP = () => {
 
   const handleSubmit = async(otpValue) => {
     try {
-      const response = await fetch(`http://localhost:8080/auth/confirm/register?confirmationCode=${otpValue}`, {
+      const url = window.REACT_APP_API_URL + `/auth/confirm/register?confirmationCode=${otpValue}`;
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
