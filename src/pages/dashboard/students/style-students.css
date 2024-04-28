@@ -29,8 +29,8 @@
     align-self: center;
     flex-direction: column;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 main{
@@ -84,7 +84,7 @@ main > div > div{
     flex-direction: column;
     align-items: left;
     justify-content: space-between;
-    height: 35vh;
+    /* height: 35vh; */
 }
 
 .user-details > h3{

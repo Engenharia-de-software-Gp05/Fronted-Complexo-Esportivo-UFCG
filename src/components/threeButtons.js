@@ -7,7 +7,7 @@ const ButtonDay = ({ days, selected, onClick }) => {
     <Button
       variant={selected ? 'contained' : 'outlined'}
       onClick={onClick}
-      sx={{ borderRadius: '20px', width: '110px', textTransform: 'none' }}
+      sx={{ borderRadius: '20px', width: '95px', textTransform: 'none' }}
     >
       {days} dias
     </Button>
@@ -15,7 +15,7 @@ const ButtonDay = ({ days, selected, onClick }) => {
 };
 
 export default function ThreeButtons() {
-  const [reserveDays, setReserveDays] = useState(null);
+  const [reserveDays, setReserveDays] = useState(7);
 
   const handleSelectDiasReserva = (days) => {
     setReserveDays(days);
