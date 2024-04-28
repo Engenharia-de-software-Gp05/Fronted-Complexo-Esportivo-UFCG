@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,23 +9,49 @@ import InputAdornment from '@mui/material/InputAdornment';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import { Link, useNavigate } from 'react-router-dom';
-import "./style.css"
+import "./style.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [error, setError] = React.useState(null);
 
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const senha = data.get("senha");
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (emailRegex.test(email)) {
-      navigate('/scheduler');
-    } else {
-      alert('Email inválido');
+    let data = new FormData(event.currentTarget);
+    let email = data.get("email");
+    let password = data.get("senha");
+
+    const body = { 
+      username: email, 
+      password: password 
+    } 
+    try {
+      const url = window.REACT_APP_API_URL + 'auth/login';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(body)
+      });
+    
+      if (response.status !== 200) {
+        throw new Error('Erro ao logar');
+      }else{
+        localStorage.setItem('token', data.token);
+        navigate('/scheduler');
     }
-  };
+    
+      const responseData = await response.json();
+      localStorage.setItem('token', responseData.token);
+
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+    }
+    };
 
   return (
     <main>
@@ -38,7 +64,7 @@ export default function LoginPage() {
           <Typography variant="h5">
             Agende com tranquilidade o seu horário!
           </Typography>
-          <Typography variant="subtitle1">
+          <Typography component="subtitle1">
             Todas as quadras da UFCG disponíveis para agendamento fácil pelo site, acesse ou crie sua conta!
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ width: '100%' }}>

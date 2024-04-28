@@ -42,6 +42,7 @@ export default function NewPassword() {
               autoFocus
               className="textField"
               placeholder="Digite sua senha aqui"
+              type='password'
             />
             <TextField
               margin="normal"
@@ -54,6 +55,7 @@ export default function NewPassword() {
               autoFocus
               className="textField"
               placeholder="Confirme sua senha aqui"
+              type='password'
             />
             <Button
               type="submit"
