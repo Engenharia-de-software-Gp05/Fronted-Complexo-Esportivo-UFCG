@@ -12,7 +12,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import './style.css';
+import './style-students.css';
 
 const student = {
   name: 'vito',
@@ -60,9 +60,10 @@ export default function ListStudents() {
   };
 
   return (
-    <div className="container">
+    <div className="container" id='main-id'>
       <main>
         <h1>Lista de alunos</h1>
+        
         <div>
           <LeftSide onSelectUser={handleUserClick} selectedUser={selectedUser} />
           <RightSide
@@ -108,7 +109,7 @@ function LeftSide({ onSelectUser, selectedUser }) {
                 <strong>{d.name}</strong>
               </Typography>
               <Typography variant="subtitle1" gutterBottom>
-                subtitle1. Lorem ipsum dolor sit amet.
+                victor vinicius freire de araujo
               </Typography>
             </div>
           </div>

@@ -20,6 +20,7 @@ import Gradient from "@mui/icons-material/Gradient";
 import School from "@mui/icons-material/School";
 import Groups from "@mui/icons-material/Groups";
 import Logout from "@mui/icons-material/Logout";
+import { Link } from "react-router-dom"; 
 
 const drawerWidth = 240;
 
@@ -108,7 +109,7 @@ export default function MiniDrawer() {
         open={open}
         sx={{
           boxShadow: "none",
-          backgroundColor: "#FFFAFA",
+          backgroundColor: "transparent",
           color: "inherit",
         }}
       >
@@ -121,6 +122,7 @@ export default function MiniDrawer() {
             sx={{
               marginRight: 5,
               ...(open && { display: "none" }),
+              bgcolor: "#FFFAFA"
             }}
           >
             <MenuIcon />
@@ -147,15 +149,17 @@ export default function MiniDrawer() {
           }}
         >
           {[
-            "Agendar",
-            "Meus agendamentos",
-            "Quadras",
-            "Alunos",
-            "Funcionários",
-            "Sair",
-          ].map((text, index) => (
+            { text: "Agendar", link: "/scheduler" },
+            { text: "Meus agendamentos", link: "/scheduler" },
+            { text: "Quadras", link: "/list-courts" },
+            { text: "Alunos", link: "/list-students" },
+            { text: "Funcionários", link: "/list-employees" },
+            { text: "Sair", link: "/" },
+          ].map(({ text, link }, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
+                component={Link} 
+                to={link}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",

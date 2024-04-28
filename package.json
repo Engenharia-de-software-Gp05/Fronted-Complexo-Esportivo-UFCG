@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "dev": "react-scripts dev"
+    "dev": "react-scripts dev",
+    "build": "react-scripts build"
   },
   "dependencies": {
     "@devexpress/dx-react-scheduler": "^4.0.8",
@@ -17,6 +18,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.6.8",
     "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -43,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "prettier": "^3.2.5",
     "prettier-eslint": "^16.3.0"
   }

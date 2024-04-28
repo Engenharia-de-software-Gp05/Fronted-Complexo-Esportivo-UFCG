@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -6,25 +6,48 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link, useNavigate } from 'react-router-dom';
-import "./style.css"
+import "./style.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [error, setError] = React.useState(null);
 
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const senha = data.get("senha");
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const estudanteEmailRegex = /@estudante\.ufcg\.edu\.br$/;
+    let data = new FormData(event.currentTarget);
+    let email = data.get("email");
+    let password = data.get("senha");
 
-    if (emailRegex.test(email) && estudanteEmailRegex.test(email)) {
-      navigate('/scheduler');
-    } else {
-      alert('Email inválido');
+    const body = { 
+      username: email, 
+      password: password 
+    } 
+    try {
+      const response = await fetch('http://localhost:8080/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(body)
+      });
+    
+      if (response.status !== 200) {
+        throw new Error('Erro ao logar');
+      }else{
+        localStorage.setItem('token', data.token);
+        navigate('/scheduler');
     }
-  };
+    
+      const responseData = await response.json();
+      localStorage.setItem('token', responseData.token);
+
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+    }
+    };
 
   return (
     <main>
@@ -38,7 +61,7 @@ export default function LoginPage() {
           <Typography component="h1" variant="h5" className="h1">
             Agende com tranquilidade o seu horário!
           </Typography>
-          <Typography component= "subtitle1">
+          <Typography component="subtitle1">
             Todas as quadras da UFCG disponíveis para agendamento fácil pelo site, acesse ou crie sua conta!
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} className="container">
