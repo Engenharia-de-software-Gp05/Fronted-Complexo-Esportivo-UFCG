@@ -20,7 +20,7 @@ import Gradient from "@mui/icons-material/Gradient";
 import School from "@mui/icons-material/School";
 import Groups from "@mui/icons-material/Groups";
 import Logout from "@mui/icons-material/Logout";
-import { Link } from "react-router-dom"; // Importando Link do React Router
+import { Link } from "react-router-dom"; 
 
 const drawerWidth = 240;
 
@@ -158,8 +158,8 @@ export default function MiniDrawer() {
           ].map(({ text, link }, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
-                component={Link} // Usando Link do React Router
-                to={link} // Passando o link para o atributo 'to' do Link
+                component={Link} 
+                to={link}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
