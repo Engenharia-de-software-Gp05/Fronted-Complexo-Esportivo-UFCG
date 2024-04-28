@@ -30,13 +30,12 @@ function Rotas() {
         <Route path="/email-check" element={<OkEmailPage />} />
         <Route path="/wrong-code" element={<ErrorPage />} />
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
-        <Route path="/register-court" element={<RegisterCourt />} />
-        <Route path="/list-courts" element={<ListCourts />} />
-        <Route path="/register-employee" element={<RegisterEmployee />} />
+        <Route path="/register-court" element={<PageItem Page={RegisterCourt}/>}/>
+        <Route path="/list-courts" element={<PageItem Page={ListCourts}/> }/>
+        <Route path="/register-employee" element={<PageItem Page={RegisterEmployee}/>} />
         <Route path="/list-employees" element={<PageItem Page={ListEmployees }/>} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="" element={<LoginPage />} />
-        <Route path="/simple-navbar" element={<SimpleSideBar />} />
       </Routes>
     </Router>
   );
