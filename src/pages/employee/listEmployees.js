@@ -31,16 +31,16 @@ export default function ListEmployees() {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-  }
+  };
 
   const handleDeleteUser = () => {
     //requisicao
     setSelectedUser(null);
     setOpenDialog(false);
-  }
+  };
 
   return (
-    <Container component="section" sx={{ width: 1100, height: 956, mt: 5 }}>
+    <Container component="section" sx={{ width: 1050, height: 910, mt: 1 }}>
       <CssBaseline>
         <Typography variant="h3" sx={{ margin: 3 }}>
           Lista de Funcionários
@@ -83,42 +83,22 @@ export default function ListEmployees() {
                     {selectedUser ? selectedUser.name : "Nome"}
                   </text>
                   <text>
-                    <TextSnippetIcon />
-                    {selectedUser ? selectedUser.id : "Matrícula"}
-                  </text>
-                  <text>
                     <EmailOutlinedIcon />
                     {selectedUser ? selectedUser.email : "E-mail"}
                   </text>
                   <text>
                     <SmartphoneOutlinedIcon />
-                    {selectedUser ? selectedUser.phone : "Telfone"}
+                    {selectedUser ? selectedUser.phone : "Telefone"}
                   </text>
                 </div>
-                  <div style={{ display: 'flex', justifyContent: 'center'}}>
-                    <Button 
-                      type="submit"
-                      variant="contained"
-                      sx={{ borderRadius: 20, width: 212, height: 40, textTransform: 'none', margin: 5 }}
-                      onClick={handleOpenDialog}
-                    >Deletar Funcionário</Button>
-                  </div>
+                <div
+                  style={{ display: "flex", justifyContent: "center" }}
+                ></div>
               </div>
             </div>
           </Grid>
         </Grid>
       </CssBaseline>
-
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Confirmação de Exclusão</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Tem certeza que deseja excluir este Funcionário?</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color='primary'>Cancelar</Button>
-          <Button onClick={handleDeleteUser} color='primary'>Confirmar</Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 }
