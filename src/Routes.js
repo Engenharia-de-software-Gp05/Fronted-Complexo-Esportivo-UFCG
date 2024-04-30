@@ -23,17 +23,17 @@ function Rotas() {
     <Router>
       <Routes>
         <Route path="/otp" element={<OTP />} />
-        <Route path="/list-students" element={<PageItem Page={ListStudents} />}/>
-        <Route path="/scheduler" element={<PageItem Page={SchedulerPage} />}/> 
+        <Route path="/list-users" element={<PageItem Page={ListStudents} />} />
+        <Route path="/scheduler" element={<PageItem Page={SchedulerPage} />} />
         <Route path="/redefine-password" element={<RedefinePassword />} />
-        <Route path="/new-password" element={<NewPassword />}/>
+        <Route path="/new-password" element={<NewPassword />} />
         <Route path="/email-check" element={<OkEmailPage />} />
         <Route path="/wrong-code" element={<ErrorPage />} />
         <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
-        <Route path="/register-court" element={<PageItem Page={RegisterCourt}/>}/>
-        <Route path="/list-courts" element={<PageItem Page={ListCourts}/> }/>
-        <Route path="/register-employee" element={<PageItem Page={RegisterEmployee}/>} />
-        <Route path="/list-employees" element={<PageItem Page={ListEmployees }/>} />
+        <Route path="/register-court" element={<PageItem Page={RegisterCourt} />} />
+        <Route path="/list-courts" element={<PageItem Page={ListCourts} />} />
+        <Route path="/register-employee" element={<PageItem Page={RegisterEmployee} />} />
+        <Route path="/list-employees" element={<PageItem Page={ListEmployees} />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="" element={<LoginPage />} />
       </Routes>

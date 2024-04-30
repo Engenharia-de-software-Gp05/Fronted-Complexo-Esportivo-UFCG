@@ -17,10 +17,12 @@ import ListItemText from "@mui/material/ListItemText";
 import CalendarMonth from "@mui/icons-material/CalendarMonth";
 import Event from "@mui/icons-material/Event";
 import Gradient from "@mui/icons-material/Gradient";
+import SportsVolleyballIcon from '@mui/icons-material/SportsVolleyball';
 import School from "@mui/icons-material/School";
 import Groups from "@mui/icons-material/Groups";
 import Logout from "@mui/icons-material/Logout";
-import { Link } from "react-router-dom"; 
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -122,7 +124,7 @@ export default function MiniDrawer() {
             sx={{
               marginRight: 5,
               ...(open && { display: "none" }),
-              bgcolor: "#FFFAFA"
+              bgcolor: "#FFFAFA",
             }}
           >
             <MenuIcon />
@@ -152,13 +154,15 @@ export default function MiniDrawer() {
             { text: "Agendar", link: "/scheduler" },
             { text: "Meus agendamentos", link: "/scheduler" },
             { text: "Quadras", link: "/list-courts" },
-            { text: "Alunos", link: "/list-students" },
+            { text: "Registrar Quadras", link: "/register-court"},
+            { text: "Usuários", link: "/list-users" },
             { text: "Funcionários", link: "/list-employees" },
+            { text: "Registrar Funcionários", link: "/register-employee"},
             { text: "Sair", link: "/" },
           ].map(({ text, link }, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
-                component={Link} 
+                component={Link}
                 to={link}
                 sx={{
                   minHeight: 48,
@@ -179,11 +183,15 @@ export default function MiniDrawer() {
                   ) : index === 1 ? (
                     <Event />
                   ) : index === 2 ? (
-                    <Gradient />
+                    <SportsVolleyballIcon />
                   ) : index === 3 ? (
-                    <School />
+                    <Gradient />
                   ) : index === 4 ? (
+                    <School />
+                  ) : index === 5 ? (
                     <Groups />
+                  ) : index === 6 ? (
+                    <HowToRegIcon />
                   ) : (
                     <Logout />
                   )}
