@@ -48,10 +48,33 @@ export default function LoginPage() {
       const responseData = await response.json();
       localStorage.setItem('token', responseData.token);
 
+      await fetchUserRoles();
+
       setError(null);
     } catch (error) {
       setError(error.message);
     }
+    };
+
+    const fetchUserRoles = async () => {
+      try {
+        const response = await fetch(window.REACT_APP_API_URL + '/user/me/roles', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erro ao buscar os papéis do usuário');
+        }
+  
+        const data = await response.json();
+        localStorage.setItem('userRoles', JSON.stringify(data.roles));
+      } catch (error) {
+        console.error(error);
+      }
     };
 
   return (
