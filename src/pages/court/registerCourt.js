@@ -46,15 +46,16 @@ export default function CadastrarQuadra() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        minHeight: "100vh", // alteração aqui
       }}
     >
-      <Container component="section" maxWidth="xs">
+      <Container component="section" maxWidth="xs" sx={{ py: 16 }}>
+        {" "}
+        {/* alteração aqui */}
         <CssBaseline />
         <Box sx={{ marginBottom: "20px", textAlign: "center" }}>
           <Typography variant="h5">Cadastro de Quadras</Typography>
         </Box>
-
         <form onSubmit={handleSubmit}>
           <TextField
             required

@@ -53,7 +53,7 @@ const SearchBarCustom = ({ database, searchFor, onSelectItem }) => {
             )
           }}
         />
-        <div style={{ maxHeight: 690, overflow: 'auto' }}>
+        <div style={{ maxHeight: 650, overflow: 'auto' }}>
           <List>
             {filteredData.map((item) => (
               <ListItemButton  

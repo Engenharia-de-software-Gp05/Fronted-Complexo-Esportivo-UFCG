@@ -30,7 +30,7 @@ export default function ListCourts() {
   };
 
   return (
-    <Container component="section" sx={{ width: 1100, height: 956, mt: 5 }}>
+    <Container component="section" sx={{ width: 1050, height: 910, mt: 1 }}>
       <CssBaseline>
         <Typography variant="h3" sx={{ margin: 3 }}>
           Lista de Quadras
@@ -48,7 +48,7 @@ export default function ListCourts() {
           <Grid
             item
             xs={6}
-            sx={{ width: "100%", height: "100%", bgcolor: "common.white" }}
+            sx={{ width: "100%", height: "20%", bgcolor: "common.white" }}
           >
             <Grid
               container
