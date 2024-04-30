@@ -8,8 +8,27 @@ const OTP = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const handleSubmit = (otpValue) => {
-    navigate("/new-password");
+  const handleSubmit = async(otpValue) => {
+    try {
+      const url = window.REACT_APP_API_URL + `/auth/confirm/register?confirmationCode=${otpValue}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+      });
+    
+      if (response.status !== 200) {
+        throw new Error('Wrong code');
+      } else {
+        navigate('/email-check');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    
   };
 
   return (

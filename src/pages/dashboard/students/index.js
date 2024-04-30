@@ -12,7 +12,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import './style.css';
+import './style-students.css';
 
 const student = {
   name: 'vito',
@@ -60,9 +60,10 @@ export default function ListStudents() {
   };
 
   return (
-    <div className="container">
-      <main>
+    <div className="list-student-container">
+      <main className='list-student-main'>
         <h1>Lista de alunos</h1>
+        
         <div>
           <LeftSide onSelectUser={handleUserClick} selectedUser={selectedUser} />
           <RightSide
@@ -91,24 +92,24 @@ function LeftSide({ onSelectUser, selectedUser }) {
   const dataFiltered = filterData(searchQuery, data);
 
   return (
-    <div className="left-section">
+    <div className="list-student-left-section">
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="users">
+      <div className="list-student-users">
         {dataFiltered.map((d) => (
           <div
-            className={`user ${selectedUser.id === d.id ? 'selected-user' : ''}`}
+            className={`list-student-user ${selectedUser.id === d.id ? 'list-student-selected-user' : ''}`}
             key={d.id}
             onClick={() => onSelectUser(d)}
           >
-            <div className="icon-name">
+            <div className="list-student-icon-name">
               <PersonOutlineIcon />
             </div>
-            <div className="name">
+            <div className="list-student-name">
               <Typography variant="h8">
                 <strong>{d.name}</strong>
               </Typography>
               <Typography variant="subtitle1" gutterBottom>
-                subtitle1. Lorem ipsum dolor sit amet.
+                victor vinicius freire de araujo
               </Typography>
             </div>
           </div>
@@ -120,9 +121,9 @@ function LeftSide({ onSelectUser, selectedUser }) {
 
 function RightSide({ selectedUser, onBlockConfirm, onUnblockConfirm }) {
   return (
-    <div className="right-section">
+    <div className="list-student-right-section">
       <div>
-        <div className="user-details">
+        <div className="list-student-user-details">
           <h3>Detalhes do usuário</h3>
           <text>
             <PersonOutlineIcon />
@@ -165,7 +166,7 @@ const SearchBar = ({ setSearchQuery }) => (
   <form>
     <TextField
       id="search-bar"
-      className="search-bar"
+      className="list-student-search-bar"
       onInput={(e) => {
         setSearchQuery(e.target.value);
       }}
@@ -199,11 +200,11 @@ const filterData = (query, data) => {
 const BlockModal = ({ open, onClose, onBlockConfirm }) => {
   return (
     <Modal open={open} onClose={onClose}>
-      <Box className="modal-box">
+      <Box className="list-student-modal-box">
         <div><BlockOutlinedIcon /></div>
         <div><Typography variant='h5'>Deseja bloquear esse usuário?</Typography></div>
         <div><Typography variant='subtitle2' style={{ color: '#53433F' }}>Após o bloqueio, o usuário será incapaz de solicitar agendamentos.</Typography></div>
-        <div className='buttons'>
+        <div className='list-student-buttons'>
           <Button variant="contained" onClick={onClose}>Cancelar</Button>
           <Button variant='outlined' onClick={onBlockConfirm}>Bloquear</Button>
         </div>
@@ -215,11 +216,11 @@ const BlockModal = ({ open, onClose, onBlockConfirm }) => {
 const UnblockModal = ({ open, onClose, onUnblockConfirm }) => {
   return (
     <Modal open={open} onClose={onClose}>
-      <Box className="modal-box">
+      <Box className="list-student-modal-box">
         <div><BlockOutlinedIcon /></div>
         <div><Typography variant='h5'>Deseja desbloquear esse usuário?</Typography></div>
         <div><Typography variant='subtitle2' style={{ color: '#53433F' }}>Após o desbloqueio, o usuário poderá solicitar agendamentos novamente.</Typography></div>
-        <div className='buttons'>
+        <div className='list-student-buttons'>
           <Button variant="contained" onClick={onClose}>Cancelar</Button>
           <Button variant='outlined' onClick={onUnblockConfirm}>Desbloquear</Button>
         </div>

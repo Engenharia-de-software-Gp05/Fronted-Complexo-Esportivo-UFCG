@@ -1,59 +1,56 @@
-.users{
+.list-student-users{
     padding: 20px;
     background-color: #FFF8F6;
     height:100%;
-    max-height: 100%; 
+    max-height: 95%; 
     overflow-x: auto;
 }
 
-.user{
+.list-student-user{
     display: flex;
     font-size: 20;
-    width: "250px";
-    border-color: "green";
-    border-width: "10px";
     padding: 10px;
-    min-height: 88px;
-
 }
 
-.name{
+.list-student-name{
     display: flex;
     flex-direction: column;
 }
 
-.search-bar{
+.list-student-search-bar{
     width: 100%;
     background-color: #FFF8F6;
     border-radius: 4px 4px 0px 0px;
     border-color: black;
 }
 
-
-.container{
+.list-student-container{
     display: flex;
     align-self: center;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    margin: 4vh 0;
+    width: 100vw;
+    height: 100vh;
 }
 
-main{
+.list-student-main{
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    width: 58vw;
-    height: 92vh;
-    max-height: 92vh;
+    width: 70%;
+    height: 92%;
     background-color: #FFEDE8;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     border-radius: 16px;
+    flex-wrap: wrap;
+    overflow: hidden;
+    margin-top: 2%;
 }
 
-main h1{
+.list-student-main h1{
     color: #8F4C36;
 }
 
-main > div{
+.list-student-main > div{
     width: 100%;
     height: 100%;
     display: flex;
@@ -61,43 +58,46 @@ main > div{
     justify-content: space-around;
 }
 
-main > div > div{
+.list-student-main > div > div{
     height: 90%;
 }
 
-.right-section{
+.list-student-right-section{
+    width: 49%;
+    background-color: #FFF8F6;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 49%;
-    background-color: #FFF8F6;
     justify-content: space-evenly;
+    border: #D8C2BC 1px solid;
+    border-radius: 16px;
+    height: 80%;
 }
 
-.right-section > div{
+.list-student-right-section > div{
     display: flex;
     justify-content: center;
 
 }
 
-.user-details{
+.list-student-user-details{
     display: flex;
     flex-direction: column;
     align-items: left;
     justify-content: space-between;
-    /* height: 35vh; */
 }
 
-.user-details > h3{
+.list-student-user-details > h3{
     font-style: normal;
     font-weight: 400;
     font-size: 26px;
     line-height: 40px;
-    
 }
 
-.left-section{
+.list-student-left-section{
     width: 40%;
+    max-height: 80%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;    
 }
 
 text{
@@ -111,7 +111,7 @@ text > *{
     margin: 0px 10px;
 }
 
-.button{
+.list-student-button{
     width: 176px;
     height: 40px;
     font: 10px;
@@ -119,22 +119,21 @@ text > *{
     border-radius: 100px;
 }
 
-.user > div{
+.list-student-user > div{
     margin: 5px;
 }
 
-.icon-name{
+.list-student-icon-name{
     padding-top: 1px;
 }
 
-.modal-box {
+.list-student-modal-box {
     position: absolute;
     width: 312px;
     min-width: 280px;
     max-width: 560px;
     height: 272px;
     border-radius: 28px;
-    
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -146,18 +145,45 @@ text > *{
     justify-content: space-around;
 }  
 
-.modal-box > div{
+.list-student-modal-box > div{
     display: flex;
     flex-direction: row;
     text-align: center;
     justify-content: center;    
 }
 
-.modal-box > .buttons {
+.list-student-modal-box > .list-student-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-around; 
 }
-.selected-user{
+
+.list-student-selected-user{
     background: rgba(247,228,223,0.4);
 }
+
+@media (max-width: 850px) {
+    .list-student-main{
+        height: 98%;
+    }
+    .list-student-main>div{
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+    }
+    .list-student-right-section{
+        width: 90%;
+        height: 48%;
+        margin-top: 40px;
+    }
+    .list-student-left-section{
+        width: 90%;
+        max-height: 30%;
+    }
+    .list-student-user{
+        padding: 2px;
+    }
+    .list-student-users{
+        padding: 5px;
+    }
+  }
