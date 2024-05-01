@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate
+} from "react-router-dom";
 import OTP from "./pages/otp";
 import RedefinePassword from "./pages/redefine-password";
 import NewPassword from "./pages/redefine-password/new-password";
@@ -15,62 +21,58 @@ import ListStudents from "./pages/dashboard/students";
 import SignIn from "./pages/sign-in";
 import LoginPage from "./pages/login";
 import PageItem from "./components/pageItem";
+import { jwtDecode } from "jwt-decode";
 
-function AccessDeniedWidget({ returnPath }) {
+function AccessDeniedWidget({ returnPath, userRoles }) {
   const navigate = useNavigate();
 
   function handleGoBack() {
-    navigate(returnPath);
+    if(userRoles.length === 0) {
+      navigate("/");
+    } else {
+      navigate(returnPath);
+    }
   }
 
   return (
     <div className="access-denied-widget">
-      <p>Você não tem autorização para acessar esta página.</p>
-      <button onClick={handleGoBack}>Voltar</button>
+      <p style={{ textAlign: "center", marginBottom: "20px" }}>
+        Você não tem autorização para acessar esta página.
+      </p>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            borderRadius: "5px",
+            cursor: "pointer",
+            border: "none",
+          }}
+          onClick={handleGoBack}
+        >
+        Voltar
+        </button>
+      </div>
     </div>
   );
 }
-
-async function getUserRoles() {
-  try {
-    const response = await fetch(window.REACT_APP_API_URL + '/user/me/roles', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-    });
-    const data = await response.json();
-    console.log(data);
-    return data.roles;
-  } catch (error) {
-    throw new Error('Erro na busca das permissões do usuário.');
-  }
-}
-
 function Rotas() {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
   const [returnPath, setReturnPath] = useState("");
   const [userRoles, setUserRoles] = useState([]);
 
   useEffect(() => {
-    const storedRoles = localStorage.getItem("userRoles");
-    if (storedRoles) {
-      setUserRoles(JSON.parse(storedRoles));
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const roles = decodedToken.roles;
+      setUserRoles(roles);
     } else {
-      fetchUserRoles();
+    // "ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"
+    // setUserRoles(["ROLE_USER"]);
     }
   }, []);
-
-  async function fetchUserRoles() {
-    try {
-      const roles = await getUserRoles();
-      setUserRoles(roles);
-      localStorage.setItem("userRoles", JSON.stringify(roles));
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   function handleAccessDenied(returnPath) {
     setReturnPath(returnPath);
@@ -83,41 +85,201 @@ function Rotas() {
 
   return (
     <Router>
-      {showAccessDenied && <AccessDeniedWidget onClose={handleCloseAccessDenied} returnPath={returnPath} />}
+      {showAccessDenied && (
+        <AccessDeniedWidget
+          onClose={handleCloseAccessDenied}
+          returnPath={returnPath}
+        />
+      )}
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/otp" element={<OTP />} />
-        <Route path="/wrong-code" element={<ErrorPage />} />
-        <Route path="/email-check" element={<OkEmailPage />} />
-        <Route path="/redefine-password" element={<RedefinePassword />} />
-        <Route path="/new-password" element={<NewPassword />} />
-        <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
+
+        <Route
+          path="/otp"
+          element={
+            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
+              userRoles.includes(role)
+            ) ? (
+              <PageItem Page={OTP} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/"
+              />
+            )
+          }
+        />
+        <Route
+          path="/wrong-code"
+          element={
+            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
+              userRoles.includes(role)
+            ) ? (
+              <PageItem Page={ErrorPage} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/"
+              />
+            )
+          }
+        />
+        <Route
+          path="/email-check"
+          element={
+            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
+              userRoles.includes(role)
+            ) ? (
+              <PageItem Page={OkEmailPage} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/"
+              />
+            )
+          }
+        />
+        <Route
+          path="/redefine-password"
+          element={
+            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
+              userRoles.includes(role)
+            ) ? (
+              <PageItem Page={RedefinePassword} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/"
+              />
+            )
+          }
+        />
+        <Route
+          path="/new-password"
+          element={
+            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
+              userRoles.includes(role)
+            ) ? (
+              <PageItem Page={NewPassword} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/scheduler"
+              />
+            )
+          }
+        />
+        <Route
+          path="/new-password-check"
+          element={
+            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
+              userRoles.includes(role)
+            ) ? (
+              <PageItem Page={RedefinePasswordCheck} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/scheduler"
+              />
+            )
+          }
+        />
 
         <Route
           path="/scheduler"
-          element={["ROLE_ADMIN", "ROLE_USER"].every(role => userRoles.includes(role))? <PageItem Page={SchedulerPage} /> : <AccessDeniedWidget onClick={handleAccessDenied} returnPath="/scheduler" />}
+          element={
+            ["ROLE_ADMIN", "ROLE_USER"].some((role) =>
+              userRoles.includes(role)
+            ) ? (
+              <PageItem Page={SchedulerPage} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/scheduler"
+              />
+            )
+          }
         />
         <Route
           path="/list-courts"
-          element={["ROLE_ADMIN", "ROLE_USER"].every(role => userRoles.includes(role))? <PageItem Page={ListCourts} /> : <AccessDeniedWidget onClick={handleAccessDenied} returnPath="/schedulers" />}
+          element={
+            ["ROLE_ADMIN", "ROLE_USER"].some((role) =>
+              userRoles.includes(role)
+            ) ? (
+              <PageItem Page={ListCourts} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/scheduler"
+              />
+            )
+          }
         />
 
         <Route
           path="/list-users"
-          element={["ROLE_ADMIN"].every(role => userRoles.includes(role))? <PageItem Page={ListStudents} /> : <AccessDeniedWidget onClick={handleAccessDenied} returnPath="/scheduler" />}
+          element={
+            ["ROLE_ADMIN"].some((role) => userRoles.includes(role)) ? (
+              <PageItem Page={ListStudents} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/scheduler"
+              />
+            )
+          }
         />
         <Route
           path="/register-court"
-          element={["ROLE_ADMIN"].every(role => userRoles.includes(role))? <PageItem Page={RegisterCourt} /> : <AccessDeniedWidget onClick={handleAccessDenied} returnPath="/scheduler" />}
+          element={
+            ["ROLE_ADMIN"].some((role) => userRoles.includes(role)) ? (
+              <PageItem Page={RegisterCourt} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/scheduler"
+              />
+            )
+          }
         />
         <Route
           path="/register-employee"
-          element={["ROLE_ADMIN"].every(role => userRoles.includes(role))? <PageItem Page={RegisterEmployee} /> : <AccessDeniedWidget onClick={handleAccessDenied} returnPath="/scheduler" />}
+          element={
+            ["ROLE_ADMIN"].some((role) => userRoles.includes(role)) ? (
+              <PageItem Page={RegisterEmployee} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/scheduler"
+              />
+            )
+          }
         />
         <Route
           path="/list-employees"
-          element={["ROLE_ADMIN"].every(role => userRoles.includes(role))? <PageItem Page={ListEmployees} /> : <AccessDeniedWidget onClick={handleAccessDenied} returnPath="/scheduler" />}
+          element={
+            ["ROLE_ADMIN"].some((role) => userRoles.includes(role)) ? (
+              <PageItem Page={ListEmployees} />
+            ) : (
+              <AccessDeniedWidget
+                userRoles={userRoles}
+                onClick={handleAccessDenied}
+                returnPath="/scheduler"
+              />
+            )
+          }
         />
       </Routes>
     </Router>
