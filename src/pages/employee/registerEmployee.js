@@ -13,11 +13,12 @@ import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 import ButtonRegister from "../../components/buttonRegister";
 
 export default function RegisterEmployee() {
-  const [fullName, setFullName] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [fullName, setFullName] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
 
   const handleChangeCpf = (event) => {
@@ -40,16 +41,50 @@ export default function RegisterEmployee() {
     setPhone(phone);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
       setPasswordError(true);
       return;
     }
-    //
-  };
+    
+    try {
+      const response = await fetch('/rota', { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName,
+          cpf,
+          phone,
+          email,
+          password
+        })
+    });
 
+    if(response.ok) {
+      setFullName('');
+      setCpf('');
+      setPhone('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setPasswordError(false);
+      //
+    } else {
+      console.error('Error when registering employee: ', response.statusText);
+    }
+    } catch (error) {
+      console.error('Error when registering employee: ', error);
+    }
+  }
+  
   return (
+    <Container component="section" maxWidth="xs">
+      <CssBaseline />
+      <Box sx={{ marginBottom: '20px', display: 'flex', justifyContent: 'center' }}>
+        <Typography variant='h5'>Cadastro de Funcionário</Typography>
+      </Box>
+
     <Box
       sx={{
         display: "flex",
@@ -123,5 +158,6 @@ export default function RegisterEmployee() {
         </form>
       </Container>
     </Box>
+    </Container>
   );
 }
