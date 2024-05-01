@@ -18,6 +18,7 @@ import {
   serialize,
 } from "../../components/utils/dateOptions.tsx";
 import { Form, ItemDetails } from "../../components/scheduler/Content.tsx";
+import MiniDrawer from "../../components/navbar.js";
 
 const BASE_API = "http://localhost:4000";
 
@@ -122,51 +123,7 @@ export const SchedulerPage = () => {
     <Grid container height={"100vh"} alignItems={"center"}>
       {/* NavBar */}
       <Grid item md={1}>
-        {isMobile ? (
-          <SwipeableDrawer
-            open={isDrawerOpen}
-            onClose={() => setIsDrawerOpen(false)}
-            onOpen={() => setIsDrawerOpen(true)}
-          >
-            <List>
-              <ListItem>
-                <IconButton onClick={() => setIsFormOpen(true)}>
-                  <Schedule />
-                </IconButton>
-              </ListItem>
-              <ListItem>
-                <IconButton>
-                  <Schedule />
-                </IconButton>
-              </ListItem>
-              <ListItem>
-                <IconButton>
-                  <Schedule />
-                </IconButton>
-              </ListItem>
-            </List>
-          </SwipeableDrawer>
-        ) : (
-          <Drawer variant="permanent">
-            <List>
-              <ListItem>
-                <IconButton onClick={() => setIsFormOpen(true)}>
-                  <Schedule />
-                </IconButton>
-              </ListItem>
-              <ListItem>
-                <IconButton>
-                  <Schedule />
-                </IconButton>
-              </ListItem>
-              <ListItem>
-                <IconButton>
-                  <Schedule />
-                </IconButton>
-              </ListItem>
-            </List>
-          </Drawer>
-        )}
+        <MiniDrawer onOpenForm={() => setIsFormOpen(true)} />
       </Grid>
       {/* Lista de itens */}
       {/* Detalhes de itens */}
