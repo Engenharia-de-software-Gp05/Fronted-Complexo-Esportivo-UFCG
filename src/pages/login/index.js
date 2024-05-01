@@ -27,7 +27,7 @@ export default function LoginPage() {
       password: password 
     } 
     try {
-      const url = window.REACT_APP_API_URL.concat('/auth/login/');
+      const url = window.REACT_APP_API_URL.concat('/auth/login');
       console.log(url)
       const response = await fetch(url, {
         method: 'POST',
@@ -42,11 +42,11 @@ export default function LoginPage() {
         throw new Error('Erro ao logar');
       }else{
         localStorage.setItem('token', data.token);
+        const responseData = await response.json();
+        localStorage.setItem('token', responseData.token);
         navigate('/scheduler');
     }
     
-      const responseData = await response.json();
-      localStorage.setItem('token', responseData.token);
 
       setError(null);
     } catch (error) {

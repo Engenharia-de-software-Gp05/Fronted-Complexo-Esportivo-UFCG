@@ -66,6 +66,7 @@ function Rotas() {
     const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
       const roles = decodedToken.roles;
       setUserRoles(roles);
     } else {
@@ -149,7 +150,7 @@ function Rotas() {
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
               userRoles.includes(role)
             ) ? (
-              <PageItem Page={RedefinePassword} />
+              <RedefinePassword />
             ) : (
               <AccessDeniedWidget
                 userRoles={userRoles}
