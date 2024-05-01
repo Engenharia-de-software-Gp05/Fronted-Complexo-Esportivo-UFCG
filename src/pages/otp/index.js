@@ -48,8 +48,8 @@ const OTP = () => {
         fontWeight={600}
         textAlign={"center"}
         color={theme.palette.primary.on_container}
-        whiteSpace={"nowrap"}
         fontSize={{ xs: "3em", sm: "5em", md: "6em" }}
+        whiteSpace={"nowrap"}
       >
         Insira seu código
       </Typography>

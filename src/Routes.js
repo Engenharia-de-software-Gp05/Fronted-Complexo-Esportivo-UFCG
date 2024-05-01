@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
   useNavigate,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import OTP from "./pages/otp";
 import RedefinePassword from "./pages/redefine-password";
@@ -14,20 +14,20 @@ import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
 import RegisterCourt from "./pages/court/registerCourt";
 import ListCourts from "./pages/court/listCourts";
-import SchedulerPage from "./pages/scheduler";
 import RegisterEmployee from "./pages/employee/registerEmployee";
 import ListEmployees from "./pages/employee/listEmployees";
 import ListStudents from "./pages/dashboard/students";
 import SignIn from "./pages/sign-in";
 import LoginPage from "./pages/login";
 import PageItem from "./components/pageItem";
+import { SchedulerPage } from "./pages/scheduler/index.tsx";
 import { jwtDecode } from "jwt-decode";
 
 function AccessDeniedWidget({ returnPath, userRoles }) {
   const navigate = useNavigate();
 
   function handleGoBack() {
-    if(userRoles.length === 0) {
+    if (userRoles.length === 0) {
       navigate("/");
     } else {
       navigate(returnPath);
@@ -51,7 +51,7 @@ function AccessDeniedWidget({ returnPath, userRoles }) {
           }}
           onClick={handleGoBack}
         >
-        Voltar
+          Voltar
         </button>
       </div>
     </div>
@@ -61,7 +61,7 @@ function Rotas() {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
   const [returnPath, setReturnPath] = useState("");
   const [userRoles, setUserRoles] = useState(["ROLE_USER"]);
-    
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -69,9 +69,9 @@ function Rotas() {
       const roles = decodedToken.roles;
       setUserRoles(roles);
     } else {
-    // "ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"
-    setUserRoles(["ROLE_USER"]);  
-  }
+      // "ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"
+      setUserRoles(["ROLE_USER"]);
+    }
   }, []);
 
   function handleAccessDenied(returnPath) {
@@ -93,13 +93,35 @@ function Rotas() {
       )}
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/otp" element={<OTP />} />
+        <Route path="/list-students" element={<ListStudents />} />
+        <Route path="/scheduler" element={<SchedulerPage />} />
+        <Route path="/list-users" element={<PageItem Page={ListStudents} />} />
+        <Route path="/redefine-password" element={<RedefinePassword />} />
+        <Route path="/new-password" element={<NewPassword />} />
+        <Route path="/email-check" element={<OkEmailPage />} />
+        <Route path="/wrong-code" element={<ErrorPage />} />
+        <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
+        <Route
+          path="/register-court"
+          element={<PageItem Page={RegisterCourt} />}
+        />
+        <Route path="/list-courts" element={<PageItem Page={ListCourts} />} />
+        <Route
+          path="/register-employee"
+          element={<PageItem Page={RegisterEmployee} />}
+        />
+        <Route
+          path="/list-employees"
+          element={<PageItem Page={ListEmployees} />}
+        />
         <Route path="/sign-in" element={<SignIn />} />
 
         <Route
           path="/otp"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={OTP} />
             ) : (
@@ -115,7 +137,7 @@ function Rotas() {
           path="/wrong-code"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={ErrorPage} />
             ) : (
@@ -131,7 +153,7 @@ function Rotas() {
           path="/email-check"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={OkEmailPage} />
             ) : (
@@ -147,7 +169,7 @@ function Rotas() {
           path="/redefine-password"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={RedefinePassword} />
             ) : (
@@ -163,7 +185,7 @@ function Rotas() {
           path="/new-password"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={NewPassword} />
             ) : (
@@ -179,7 +201,7 @@ function Rotas() {
           path="/new-password-check"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={RedefinePasswordCheck} />
             ) : (
@@ -196,9 +218,9 @@ function Rotas() {
           path="/scheduler"
           element={
             ["ROLE_ADMIN", "ROLE_USER"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
-              <PageItem Page={SchedulerPage} />
+              <SchedulerPage />
             ) : (
               <AccessDeniedWidget
                 userRoles={userRoles}
@@ -212,7 +234,7 @@ function Rotas() {
           path="/list-courts"
           element={
             ["ROLE_ADMIN", "ROLE_USER"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={ListCourts} />
             ) : (
