@@ -133,16 +133,12 @@ export default function ListEmployees() {
                     {selectedUser ? selectedUser.name : "Nome"}
                   </text>
                   <text>
-                    <TextSnippetIcon />
-                    {selectedUser ? selectedUser.id : "Matrícula"}
-                  </text>
-                  <text>
                     <EmailOutlinedIcon />
                     {selectedUser ? selectedUser.email : "E-mail"}
                   </text>
                   <text>
                     <SmartphoneOutlinedIcon />
-                    {selectedUser ? selectedUser.phone : "Telfone"}
+                    {selectedUser ? selectedUser.phone : "Telefone"}
                   </text>
                 </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>

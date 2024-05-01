@@ -11,9 +11,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  ToggleButton
 } from "@mui/material";
 import ThreeButtons from "../../components/threeButtons";
-import ToggleButton from "../../components/toggleButton";
 import SearchBarCustom from "../../components/searchBarCustom";
 
 export default function ListCourts() {
@@ -182,38 +182,66 @@ export default function ListCourts() {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "flex-end",
-                    mb: 3,
-                    mt: 3,
+                    flexDirection: "column",
+                    height: "100%",
                   }}
                 >
-                  <Button
+                  <Box
                     sx={{
-                      borderRadius: "15px",
-                      width: "105px",
-                      right: "40px",
-                      textTransform: "none",
-                      color: isSaveSelected ? "#FFF" : "inherit",
-                      backgroundColor: isSaveSelected ? "#8F4C36" : "inherit",
+                      width: "97%",
+                      height: "auto",
+                      overflow: "auto",
+                      mb: 2,
                     }}
-                    onClick={handleSave}
                   >
-                    Salvar
-                  </Button>
-
-                  <Button
+                    <Typography variant="subtitle1" mb={6}>
+                      {selectBlock ? selectBlock.name : "Nome"}
+                    </Typography>
+                    <Box
+                      sx={{ display: "flex", flexDirection: "column", mb: 2 }}
+                    >
+                      <Typography
+                        variant="subtitle2"
+                        fontWeight="bold"
+                        mb={1}
+                        color="primary"
+                      >
+                        Período de Agendamento
+                      </Typography>
+                      <Typography variant="body1" mb={1}>
+                        Um usuário pode marcar a cada:
+                      </Typography>
+                      <Box sx={{ width: 305, height: "100%" }}>
+                        {" "}
+                        <ThreeButtons />
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Box
                     sx={{
-                      borderRadius: "15px",
-                      width: "105px",
-                      right: "40px",
-                      textTransform: "none",
-                      color: isRemoveSelected ? "#FFF" : "inherit",
-                      backgroundColor: isRemoveSelected ? "#8F4C36" : "inherit",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      mb: 3,
+                      mt: -3,
                     }}
                     onClick={handleOpenDialog}
                   >
-                    Remover
-                  </Button>
+                    <Button
+                      sx={{
+                        borderRadius: "15px",
+                        width: "105px",
+                        right: "40px",
+                        textTransform: "none",
+                        color: isRemoveSelected ? "#FFF" : "inherit",
+                        backgroundColor: isRemoveSelected
+                          ? "#8F4C36"
+                          : "inherit",
+                      }}
+                      onClick={handleRemove}
+                    >
+                      Remover
+                    </Button>
+                  </Box>
                 </Box>
               </Grid>
             </Grid>

@@ -60,8 +60,8 @@ function AccessDeniedWidget({ returnPath, userRoles }) {
 function Rotas() {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
   const [returnPath, setReturnPath] = useState("");
-  const [userRoles, setUserRoles] = useState([]);
-
+  const [userRoles, setUserRoles] = useState(["ROLE_USER"]);
+    
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -70,8 +70,8 @@ function Rotas() {
       setUserRoles(roles);
     } else {
     // "ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"
-    // setUserRoles(["ROLE_USER"]);
-    }
+    setUserRoles(["ROLE_USER"]);  
+  }
   }, []);
 
   function handleAccessDenied(returnPath) {
