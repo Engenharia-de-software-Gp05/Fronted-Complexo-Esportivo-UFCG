@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   List,
@@ -16,10 +16,24 @@ const SearchBarCustom = ({ database, searchFor, onSelectItem }) => {
   const [query, setQuery] = useState("");
   const [filteredData, setFilteredData] = useState(database);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 600);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 600);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleSearch = (e) => {
     const searchQuery = e.target.value;
     setQuery(searchQuery);
+    setIsSearchActive(true);
+
     const filtered = database.filter((item) =>
       item[searchFor].toLowerCase().includes(searchQuery.toLowerCase()),
     );
@@ -29,22 +43,37 @@ const SearchBarCustom = ({ database, searchFor, onSelectItem }) => {
   const handleClearSearch = () => {
     setQuery("");
     setSelectedItem(null);
+    setFilteredData([]);
+    if(isMobileView) setIsSearchActive(false); 
   };
 
   const handleSelectedItem = (item) => {
     setSelectedItem(item.id);
     setQuery(item[searchFor]);
     onSelectItem(item);
+    setIsSearchActive(false);
   };
 
+  let openList = true;
+  if (isMobileView) {
+    openList = isSearchActive;
+  }
+
   return (
-    <div style={{ width: 480 }}>
+    <Container
+      sx={{
+        maxWidth: 480,
+        zIndex: isMobileView ? 9999 : "auto",
+        position: isMobileView ? "absolute" : "initial",
+      }}
+    >
       <TextField
         label=""
         variant="outlined"
         fullWidth
         value={query}
         onChange={handleSearch}
+        onFocus={() => setIsSearchActive(true)}
         style={{ background: "#FFF8F6" }}
         InputProps={{
           startAdornment: (
@@ -63,23 +92,28 @@ const SearchBarCustom = ({ database, searchFor, onSelectItem }) => {
         }}
       />
       <div style={{ maxHeight: 690, overflow: "auto" }}>
-        <List>
-          {filteredData.map((item) => (
-            <ListItemButton
-              key={item.id}
-              onClick={() => handleSelectedItem(item)}
-              selected={selectedItem === item.id}
-              style={{ background: "#FFF8F6" }}
-            >
-              <ListItemIcon>
-                <PersonOutlineIcon />
-              </ListItemIcon>
-              <ListItemText primary={item[searchFor]} secondary={item.email} />
-            </ListItemButton>
-          ))}
-        </List>
+        {openList && (
+          <List>
+            {filteredData.map((item) => (
+              <ListItemButton
+                key={item.id}
+                onClick={() => handleSelectedItem(item)}
+                selected={selectedItem === item.id}
+                style={{ background: "#FFF8F6" }}
+              >
+                <ListItemIcon>
+                  <PersonOutlineIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={item[searchFor]}
+                  secondary={item.email}
+                />
+              </ListItemButton>
+            ))}
+          </List>
+        )}
       </div>
-    </div>
+    </Container>
   );
 };
 
