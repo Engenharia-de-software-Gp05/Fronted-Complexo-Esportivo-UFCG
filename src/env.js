@@ -1,1 +1,1 @@
-window.REACT_APP_API_URL = 'http://35.174.62.157:8080'
+window.REACT_APP_API_URL = 'https://35.174.62.157:8080'
