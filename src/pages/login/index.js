@@ -10,6 +10,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import { Link, useNavigate } from 'react-router-dom';
 import "./style.css";
+import logo from './logo.jpeg'
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -59,8 +60,8 @@ export default function LoginPage() {
       <Container component="section" maxWidth="xs">
         <CssBaseline/>
         
-          <Typography variant="h6">
-            LOGO AQUI
+          <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <img src={logo} alt="Logomarca" className="logo-circle"/>
           </Typography>
           <Typography variant="h5">
             Agende com tranquilidade o seu horário!
