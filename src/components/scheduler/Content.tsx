@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -8,10 +8,13 @@ import {
   CardContent,
   CardMedia,
   Drawer,
+  FormControl,
   Grid,
   IconButton,
+  MenuItem,
   Modal,
   Paper,
+  Select,
   TextField,
   Typography,
   useMediaQuery,
@@ -21,6 +24,8 @@ import { CustomList, Search, customList } from "../ui/List.tsx";
 import { ArrowBack, Close } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import placeholderImg from "../../gifs/placeholder.png";
+
+const BASE_API = "http://localhost:4000";
 
 export const Content = ({ items, property }) => {
   const isMobile = useMobileContext();
@@ -199,42 +204,88 @@ export const ItemDetails = ({ item, onDelete, setSelectedItem }) => {
  * @returns {JSX.Element} O componente do formulário.
  */
 export const Form = ({ open, onClose, onSubmit }) => {
-  // Estado para armazenar os dados do formulário
   const [formData, setFormData] = useState({
-    userName: null,
-    startDate: null,
-    endDate: null,
+    startDateTime: null,
+    endDateTime: null,
     location: null,
   });
-
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-
-  // Estado para armazenar os erros de validação do formulário
+  const [locations, setLocations] = useState([]);
   const [errors, setErrors] = useState({});
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const [selectedTime, setSelectedTime] = useState("");
 
-  // Função para lidar com a alteração dos campos do formulário
+  useEffect(() => {
+    // Simulação de requisição para obter os locais
+    const fetchLocations = async () => {
+      try {
+        // Substitua essa chamada pela sua lógica real de requisição
+        const response = await fetch("http://localhost:4000/locations");
+        const data = await response.json();
+        setLocations(data);
+      } catch (error) {
+        console.error("Erro ao obter os locais:", error);
+      }
+    };
+
+    fetchLocations();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
-  // Função para lidar com o envio do formulário
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log("Passou aqui!");
-      onSubmit(formData);
+    // Se o campo modificado for a data de início, calcule a data de término adicionando duas horas
+    if (name === "startDateTime") {
+      const startDateTime = new Date(value);
+      const endDateTime = new Date(startDateTime);
+
+      if (selectedTime) {
+        const hours = selectedTime.split(":")[0];
+        console.log(hours);
+        startDateTime.setHours(parseInt(hours));
+        endDateTime.setHours(startDateTime.getHours() + 2);
+      }
+
       setFormData({
-        userName: null,
-        startDate: null,
-        endDate: null,
-        location: null,
-      });
-      onClose();
+        ...formData,
+        [name]: value,
+        endDateTime: endDateTime.toISOString().slice(0, -8),
+      }); // Converte para o formato 'YYYY-MM-DDTHH:mm'
+    } else if (name === "startTime") {
+      setSelectedTime(value); // Armazena o horário selecionado
+    } else {
+      setFormData({ ...formData, [name]: value });
     }
   };
 
-  // Função para validar o formulário
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      // Calcula a data de término adicionando duas horas à data de início
+      const startDateTime = new Date(formData.startDateTime);
+      startDateTime.setHours(parseInt(selectedTime.split(":")[0]));
+      const endDateTime = new Date(startDateTime);
+      endDateTime.setHours(startDateTime.getHours() + 2);
+
+      // Atualiza os valores no formData
+      const updatedFormData = {
+        ...formData,
+        startDateTime: startDateTime.toISOString().slice(0, -8),
+        endDateTime: endDateTime.toISOString().slice(0, -8),
+      };
+
+      console.log(updatedFormData);
+
+      onSubmit(updatedFormData); // Envia o formulário com as datas atualizadas
+      setFormData({
+        // Limpa os campos do formulário
+        startDateTime: null,
+        endDateTime: null,
+        location: null,
+      });
+      onClose(); // Fecha o drawer
+    }
+  };
+
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
@@ -251,44 +302,74 @@ export const Form = ({ open, onClose, onSubmit }) => {
     return isValid;
   };
 
+  const getMaxDate = () => {
+    const now = new Date();
+    const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    return lastDayOfMonth.toISOString().slice(0, -8); // Converte para o formato 'YYYY-MM-DDTHH:mm'
+  };
+
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
+      <IconButton
+        onClick={() => console.log("Teste")}
+        style={{ position: "absolute", top: 0, right: 0 }}
+      >
+        <Close />
+      </IconButton>
       <Box p={2} width={isMobile ? "100%" : "500"}>
-        <Button
-          onClick={onClose}
-          style={{ position: "absolute", top: 0, right: 0 }}
-        >
-          <Close />
-        </Button>
         <form onSubmit={handleSubmit}>
-          {/* Campos do formulário */}
+          <Typography variant="h6" gutterBottom>
+            Solicitar Agendamento
+          </Typography>
+          <FormControl fullWidth margin="normal" required>
+            <Typography variant="subtitle1">Local</Typography>
+            <Select
+              name="location"
+              value={formData.location || ""}
+              onChange={handleChange}
+            >
+              <MenuItem value="" disabled>
+                Selecione o Local
+              </MenuItem>
+              {locations.map((location) => (
+                <MenuItem key={location.id} value={location.id + 1}>
+                  {location.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Typography variant="subtitle1">Data de Início</Typography>
           <TextField
-            name="startDate"
-            label="Data de Início"
-            type="datetime-local"
-            value={formData.startDate || ""}
+            name="startDateTime"
+            type="date"
+            value={formData.startDateTime || ""}
             onChange={handleChange}
             fullWidth
             margin="normal"
-            // error={!!errors.startDate}
-            // helperText={errors.startDate}
+            inputProps={{
+              min: new Date().toISOString().slice(0, -8),
+              max: getMaxDate(),
+            }}
             required
           />
-          <TextField
-            name="endDate"
-            label="Data de Término"
-            type="datetime-local"
-            value={formData.endDate || ""}
+          <Select
+            name="startTime"
+            value={selectedTime}
             onChange={handleChange}
             fullWidth
             margin="normal"
-            // error={!!errors.endDate}
-            // helperText={errors.endDate}
             required
-          />
-          {/* Botão de envio do formulário */}
+          >
+            <MenuItem value="" disabled>
+              Selecione o Horário
+            </MenuItem>
+            {/* Exemplo de opções de horário */}
+            <MenuItem value="09:00">09:00</MenuItem>
+            <MenuItem value="10:00">10:00</MenuItem>
+            {/* Adicione mais opções conforme necessário */}
+          </Select>
           <Button variant="contained" type="submit">
-            Adicionar Item
+            Solicitar
           </Button>
         </form>
       </Box>
