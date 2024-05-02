@@ -24,8 +24,9 @@ import { CustomList, Search, customList } from "../ui/List.tsx";
 import { ArrowBack, Close } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import placeholderImg from "../../gifs/placeholder.png";
+import localeDate from "../utils/dateOptions.tsx";
 
-const BASE_API = "http://localhost:4000";
+const BASE_API = "https://jogajunto-api.ddns.net";
 
 export const Content = ({ items, property }) => {
   const isMobile = useMobileContext();
@@ -206,45 +207,29 @@ export const ItemDetails = ({ item, onDelete, setSelectedItem }) => {
 export const Form = ({ open, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
     startDateTime: null,
-    endDateTime: null,
-    location: null,
+    courtId: null,
   });
-  const [locations, setLocations] = useState([]);
+  const [courtId, setCourtId] = useState([]);
   const [errors, setErrors] = useState({});
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const [selectedTime, setSelectedTime] = useState("");
-  const [times, setTimes] = useState([]);
+  const [selectedTime, setSelectedTime] = useState(); // Selecionar horário
+  const [times, setTimes] = useState([]); // horários
+  const [timesJson, setTimesJson] = useState(); // json horários
 
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const url = `${window.REACT_APP_API_URL}/court/all`;
-        
-        const response = await fetch(url,{
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          }
-        }
-        );
-        const data = await response.json();
-        setLocations(data);
-        console.log(data)
-        const url2 = `${window.REACT_APP_API_URL}/reservation/detailed/by/authenticatedUser/`;
-        
-        const response2 = await fetch(url2,{
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          }
-        }
-        );
-        const data2 = await response2.json();
-        console.log(data2)
-        setTimes(data2);
+        const url = "https://jogajunto-api.ddns.net/court/all";
 
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const data = await response.json();
+        setCourtId(data);
       } catch (error) {
         console.error("Erro ao obter os locais:", error);
       }
@@ -253,25 +238,73 @@ export const Form = ({ open, onClose, onSubmit }) => {
     fetchLocations();
   }, []);
 
+  const fetchHorarios = async () => {
+    try {
+      const response = await fetch(BASE_API + "/reservation/all/detailed", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+      const responseData = await response.json();
+      return responseData;
+    } catch (error) {
+      console.log("Mensagem de erro:", error);
+    }
+  };
+
+  function findAvailableSlots(appointments) {
+    let availables = [8, 10, 12, 14, 16, 18, 20];
+    let horario = 20;
+
+    console.log(timesJson);
+
+    for (let i = 5; i >= 0; i--) {
+      horario -= 2;
+
+      for (let j = 0; j < appointments.length; j++) {
+        const appointment = appointments[j];
+        appointment.startDateTime = new Date(appointment.startDateTime);
+
+        if (appointment.startDateTime.getHours() == horario) {
+          availables.splice(i, 1);
+        }
+      }
+    }
+
+    // Formatando cada valor de hora para HH:mm
+    const formattedAvailables = availables.map((hour) => {
+      const formattedHour = `${hour.toString().padStart(2, "0")}:00`;
+      return formattedHour;
+    });
+
+    setTimes(formattedAvailables);
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     // Se o campo modificado for a data de início, calcule a data de término adicionando duas horas
     if (name === "startDateTime") {
       const startDateTime = new Date(value);
-      const endDateTime = new Date(startDateTime);
 
       if (selectedTime) {
         const hours = selectedTime.split(":")[0];
-        console.log(hours);
         startDateTime.setHours(parseInt(hours));
-        endDateTime.setHours(startDateTime.getHours() + 2);
       }
+
+      const response = fetchHorarios();
+
+      findAvailableSlots(response);
+      console.log("Times:", times);
 
       setFormData({
         ...formData,
         [name]: value,
-        endDateTime: endDateTime.toISOString().slice(0, -8),
       }); // Converte para o formato 'YYYY-MM-DDTHH:mm'
     } else if (name === "startTime") {
       setSelectedTime(value); // Armazena o horário selecionado
@@ -284,26 +317,22 @@ export const Form = ({ open, onClose, onSubmit }) => {
     e.preventDefault();
     if (validateForm()) {
       // Calcula a data de término adicionando duas horas à data de início
-      const startDateTime = new Date(formData.startDateTime);
-      startDateTime.setHours(parseInt(selectedTime.split(":")[0]));
-      const endDateTime = new Date(startDateTime);
-      endDateTime.setHours(startDateTime.getHours() + 2);
+      const hours = parseInt(selectedTime.split(":")[0]);
+      const startDate = new Date(
+        new Date(formData.startDateTime).setHours(hours)
+      );
 
       // Atualiza os valores no formData
       const updatedFormData = {
         ...formData,
-        startDateTime: startDateTime.toISOString().slice(0, -8),
-        endDateTime: endDateTime.toISOString().slice(0, -8),
+        startDateTime: startDate.toISOString().slice(0, 19).replace("T", " "),
       };
-
-      console.log(updatedFormData);
 
       onSubmit(updatedFormData); // Envia o formulário com as datas atualizadas
       setFormData({
         // Limpa os campos do formulário
         startDateTime: null,
-        endDateTime: null,
-        location: null,
+        courtId: null,
       });
       onClose(); // Fecha o drawer
     }
@@ -333,12 +362,6 @@ export const Form = ({ open, onClose, onSubmit }) => {
 
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
-      <IconButton
-        onClick={() => console.log("Teste")}
-        style={{ position: "absolute", top: 0, right: 0 }}
-      >
-        <Close />
-      </IconButton>
       <Box p={2} width={isMobile ? "100%" : "500"}>
         <form onSubmit={handleSubmit}>
           <Typography variant="h6" gutterBottom>
@@ -347,16 +370,16 @@ export const Form = ({ open, onClose, onSubmit }) => {
           <FormControl fullWidth margin="normal" required>
             <Typography variant="subtitle1">Local</Typography>
             <Select
-              name="location"
-              value={formData.location || ""}
+              name="courtId"
+              value={formData.courtId || ""}
               onChange={handleChange}
             >
               <MenuItem value="" disabled>
                 Selecione o Local
               </MenuItem>
-              {locations.map((location) => (
-                <MenuItem key={location.id} value={location.id + 1}>
-                  {location.name}
+              {courtId.map((courtId) => (
+                <MenuItem key={courtId.id} value={courtId.id}>
+                  {courtId.name}
                 </MenuItem>
               ))}
             </Select>
@@ -387,8 +410,11 @@ export const Form = ({ open, onClose, onSubmit }) => {
               Selecione o Horário
             </MenuItem>
             {/* Exemplo de opções de horário */}
-            <MenuItem value="09:00">09:00</MenuItem>
-            <MenuItem value="10:00">10:00</MenuItem>
+            {times.map((horarios, index) => (
+              <MenuItem key={index} value={horarios}>
+                {horarios}
+              </MenuItem>
+            ))}
             {/* Adicione mais opções conforme necessário */}
           </Select>
           <Button variant="contained" type="submit">

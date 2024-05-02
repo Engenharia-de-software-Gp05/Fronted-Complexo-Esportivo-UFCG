@@ -20,7 +20,7 @@ import {
 import { Form, ItemDetails } from "../../components/scheduler/Content.tsx";
 import MiniDrawer from "../../components/navbar.js";
 
-const BASE_API = window.REACT_APP_API_URL;
+const BASE_API = "https://jogajunto-api.ddns.net";
 
 export const SchedulerPage = () => {
   const [items, setItems] = useState([]);
@@ -92,6 +92,7 @@ export const SchedulerPage = () => {
         alert(response.message);
       }
       const responseData = await response.json();
+      console.log(responseData);
       setData(responseData);
       setIsLoading(false);
     } catch (error) {
