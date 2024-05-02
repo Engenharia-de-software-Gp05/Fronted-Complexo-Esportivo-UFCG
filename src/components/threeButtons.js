@@ -25,14 +25,14 @@ const ButtonDay = ({ days, selected, onClick, disabled }) => {
   );
 };
 
-export default function ThreeButtons({ reserveDays }) {
+export default function ThreeButtons({ reserveDays, onSelect }) {
   return (
     <Box
       sx={{ display: "flex", justifyContent: "space-between", mt: 2, mb: 5 }}
     >
-      <ButtonDay days={7} selected={reserveDays === 7} />
-      <ButtonDay days={15} selected={reserveDays === 15} />
-      <ButtonDay days={30} selected={reserveDays === 30} />
+      <ButtonDay days={7} selected={reserveDays === 7 } onClick={() => onSelect(7)}/>
+      <ButtonDay days={15} selected={reserveDays === 15} onClick={() => onSelect(15)}/>
+      <ButtonDay days={30} selected={reserveDays === 30} onClick={() => onSelect(30)}/>
     </Box>
   );
 }

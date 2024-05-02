@@ -15,39 +15,36 @@ import ButtonRegister from "../../components/buttonRegister";
 export default function CadastrarQuadra() {
   const [fullName, setFullName] = useState("");
   const [photo, setPhoto] = useState(null);
-  const [description, setDescription] = useState("");
   const [reserveDay, setReserveDay] = useState("");
-
-  const handleChangeDescription = (event) => {
-    const newtext = event.target.value;
-    if (newtext.length <= 500) {
-      setDescription(newtext);
-    }
-  };
 
   const handleChangePhoto = (event) => {
     const selectedPhoto = event.target.files[0];
     setPhoto(selectedPhoto);
   };
 
+  const handleSelectReserveDay = (day) => {
+    setReserveDay(day);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append('fullName', fullName);
-      formData.append('photo', photo);
-      formData.append('description', description);
-      formData.append('reserveDay', reserveDay);
+      const body = {
+        fullName: fullName,
+        photo: photo,
+        reserveDay: reserveDay,
+      };
 
-      const response = await fetch('/rota-para-salvar-quadra', {
+      const url = window.REACT_APP_API_URL.concat("/register-court");
+      const response = await fetch(url, {
         method: 'POST',
-        body: formData,
+        body: JSON.stringify(body),
       });
 
+      console.log(body)
       if (response.ok) {
         setFullName('');
         setPhoto(null);
-        setDescription('');
         setReserveDay(7);
       } else {
         console.error('Falha ao cadastrar quadra:', response.statusText);
@@ -63,12 +60,10 @@ export default function CadastrarQuadra() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh", // alteração aqui
+        minHeight: "100vh",
       }}
     >
       <Container component="section" maxWidth="xs" sx={{ py: 16 }}>
-        {" "}
-        {/* alteração aqui */}
         <CssBaseline />
         <Box sx={{ marginBottom: "20px", textAlign: "center" }}>
           <Typography variant="h5">Cadastro de Quadras</Typography>
@@ -80,6 +75,8 @@ export default function CadastrarQuadra() {
             margin="normal"
             label="Nome"
             placeholder="Quadra de vôlei"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -106,7 +103,7 @@ export default function CadastrarQuadra() {
           <Typography variant="caption">Período de Agendamento</Typography>
           <Typography>Um usuário pode marcar a cada:</Typography>
           <Box>
-            <ThreeButtons />
+          <ThreeButtons reserveDays={reserveDay} onSelect={handleSelectReserveDay} />
           </Box>
           <Box
             sx={{
