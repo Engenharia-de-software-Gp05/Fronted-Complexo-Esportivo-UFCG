@@ -21,7 +21,7 @@ export default function RecuperarSenha() {
     if (emailRegex.test(email) && estudanteEmailRegex.test(email)) {
       setRedirect(true);
     } else {
-      alert('Email inválido');
+      alert("email inválido");
     }
   };
 

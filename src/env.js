@@ -1,1 +1,1 @@
-window.REACT_APP_API_URL = 'https://jogajunto-api.ddns.net'
+window.REACT_APP_API_URL = "https://jogajunto-api.ddns.net";

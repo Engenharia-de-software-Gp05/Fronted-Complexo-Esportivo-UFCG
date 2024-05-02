@@ -17,11 +17,11 @@ import ListItemText from "@mui/material/ListItemText";
 import CalendarMonth from "@mui/icons-material/CalendarMonth";
 import Event from "@mui/icons-material/Event";
 import Gradient from "@mui/icons-material/Gradient";
-import SportsVolleyballIcon from '@mui/icons-material/SportsVolleyball';
+import SportsVolleyballIcon from "@mui/icons-material/SportsVolleyball";
 import School from "@mui/icons-material/School";
 import Groups from "@mui/icons-material/Groups";
 import Logout from "@mui/icons-material/Logout";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -91,7 +91,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function MiniDrawer() {
+export default function MiniDrawer({ onOpenForm = null }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -151,19 +151,18 @@ export default function MiniDrawer() {
           }}
         >
           {[
-            { text: "Agendar", link: "/scheduler" },
+            { text: "Agendar", link: "/scheduler", onClick: onOpenForm },
             { text: "Meus agendamentos", link: "/scheduler" },
             { text: "Quadras", link: "/list-courts" },
-            { text: "Registrar Quadras", link: "/register-court"},
+            { text: "Registrar Quadras", link: "/register-court" },
             { text: "Usuários", link: "/list-users" },
-            { text: "Funcionários", link: "/list-employees" },
-            { text: "Registrar Funcionários", link: "/register-employee"},
             { text: "Sair", link: "/" },
-          ].map(({ text, link }, index) => (
+          ].map(({ text, link, onClick }, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 component={Link}
                 to={link}
+                onClick={onClick}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",

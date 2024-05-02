@@ -5,25 +5,26 @@
   "scripts": {
     "start": "react-scripts start",
     "dev": "react-scripts dev",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "server": "json-server -p 4000 appointments.json"
   },
   "dependencies": {
-    "@devexpress/dx-react-scheduler": "^4.0.8",
-    "@devexpress/dx-react-scheduler-material-ui": "^4.0.8",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.15.14",
+    "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.11",
-    "@mui/x-date-pickers": "^5.0.15",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
     "dayjs": "^1.11.10",
+    "jwt-decode": "^4.0.0",
+    "json-server": "^0.17.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.2",
     "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.5",
     "web-vitals": "^2.1.4"
   },
   "eslintConfig": {
