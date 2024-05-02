@@ -47,6 +47,7 @@ const LightTheme = createTheme({
       on_variant: "#53433F",
       outline: "#85736E",
       outline_variant: "#D8C2BC",
+      inverse_on: "#FFEDE8",
     },
     background: {
       default: "#FFF8F6",

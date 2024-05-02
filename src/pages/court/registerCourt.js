@@ -33,15 +33,20 @@ export default function CadastrarQuadra() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append('fullName', fullName);
-      formData.append('photo', photo);
-      formData.append('description', description);
-      formData.append('reserveDay', reserveDay);
+      const body = {
+        'name': "Quadra de vôlei 1",
+        'reservationDuration': 120,
+        'minimumIntervalBetweenReservation': 7
+      }
+      const url = window.REACT_APP_API_URL.concat('/court/create');
 
-      const response = await fetch('/rota-para-salvar-quadra', {
+      const response = await fetch(url, {
+        headers: {  
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
         method: 'POST',
-        body: formData,
+        body: JSON.stringify(body)
       });
 
       if (response.ok) {

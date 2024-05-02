@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -14,34 +14,44 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import "./style-students.css";
 
-const student = {
-  name: "vito",
-  id: 1211111111,
-  status: "bloqueado",
-  email: "vito@gmail.com",
-  phone: "(83) 99999999",
-};
-const student1 = {
-  name: "paola",
-  id: 1211111112,
-  status: "ativo",
-  email: "paola@gmail.com",
-  phone: "(83) 88888888",
-};
-const student2 = {
-  name: "samuel",
-  id: 1211111113,
-  status: "ativo",
-  email: "samuel@gmail.com",
-  phone: "(83) 77777777",
-};
-
-const data = [student, student1, student2];
 
 export default function ListStudents() {
-  const [selectedUser, setSelectedUser] = useState(data[0]);
+  const [selectedUser, setSelectedUser] = useState({"name": "Selecione um ",
+                                                    "studentId": "111111111"});
   const [blockModalOpen, setBlockModalOpen] = useState(false);
   const [unblockModalOpen, setUnblockModalOpen] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setStudents();
+  }, []);
+
+  const setStudents = async()=>{
+    try {
+      const url = window.REACT_APP_API_URL.concat('/user/all');
+      console.log(url)
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      });
+    
+      if (response.status !== 200) {
+        throw new Error('Erro ao listar estudantes');
+      }else{
+        const responseData = await response.json();
+        console.log(responseData)
+        setData(responseData);
+        console.log(data)
+        setSelectedUser(responseData[0]);
+      }
+
+    } catch (error) {
+      throw new Error(error.message);
+    }
+    };
 
   const handleUserClick = (user) => {
     setSelectedUser(user);
@@ -66,8 +76,9 @@ export default function ListStudents() {
 
         <div>
           <LeftSide
-            onSelectUser={handleUserClick}
             selectedUser={selectedUser}
+            onSelectUser={handleUserClick}
+            data={data}
           />
           <RightSide
             selectedUser={selectedUser}
@@ -90,7 +101,7 @@ export default function ListStudents() {
   );
 }
 
-function LeftSide({ onSelectUser, selectedUser }) {
+function LeftSide({ onSelectUser, selectedUser, data}) {
   const [searchQuery, setSearchQuery] = useState("");
   const dataFiltered = filterData(searchQuery, data);
 
@@ -100,8 +111,8 @@ function LeftSide({ onSelectUser, selectedUser }) {
       <div className="list-student-users">
         {dataFiltered.map((d) => (
           <div
-            className={`list-student-user ${selectedUser.id === d.id ? "list-student-selected-user" : ""}`}
-            key={d.id}
+            className={`list-student-user ${selectedUser.studentId === d.studentId ? "list-student-selected-user" : ""}`}
+            key={d.studentId}
             onClick={() => onSelectUser(d)}
           >
             <div className="list-student-icon-name">
@@ -112,7 +123,7 @@ function LeftSide({ onSelectUser, selectedUser }) {
                 <strong>{d.name}</strong>
               </Typography>
               <Typography variant="subtitle1" gutterBottom>
-                victor vinicius freire de araujo
+                {d.email}
               </Typography>
             </div>
           </div>
@@ -134,7 +145,7 @@ function RightSide({ selectedUser, onBlockConfirm, onUnblockConfirm }) {
           </text>
           <text>
             <TextSnippetIcon />
-            {selectedUser.id}
+            {selectedUser.studentId}
           </text>
           <text>
             <EmailOutlinedIcon />
@@ -142,7 +153,7 @@ function RightSide({ selectedUser, onBlockConfirm, onUnblockConfirm }) {
           </text>
           <text>
             <SmartphoneOutlinedIcon />
-            {selectedUser.phone}
+            {selectedUser.phoneNumber}
           </text>
         </div>
       </div>

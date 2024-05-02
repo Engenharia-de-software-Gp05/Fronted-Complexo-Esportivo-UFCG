@@ -197,7 +197,6 @@ export default function OTPInput({ onSubmit }) {
         onSubmit={onSubmit}
         length={6}
       />
-      <span>Entered value: {otp}</span>
     </Box>
   );
 }
