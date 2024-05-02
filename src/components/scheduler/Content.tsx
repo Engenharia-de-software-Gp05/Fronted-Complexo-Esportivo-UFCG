@@ -231,7 +231,7 @@ export const Form = ({ open, onClose, onSubmit }) => {
         const data = await response.json();
         setLocations(data);
         console.log(data)
-        const url2 = `${window.REACT_APP_API_URL}/reservation/all/detailed`;
+        const url2 = `${window.REACT_APP_API_URL}/reservation/detailed/by/authenticatedUser/`;
         
         const response2 = await fetch(url2,{
           method: 'GET',
