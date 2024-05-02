@@ -94,7 +94,7 @@ function Rotas() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/otp" element={<OTP />} />
-        <Route path="/list-students" element={<ListStudents />} />
+        <Route path="/list-students" element={<PageItem Page= {ListStudents} />} />
         <Route path="/scheduler" element={<SchedulerPage />} />
         <Route path="/list-users" element={<PageItem Page={ListStudents} />} />
         <Route path="/redefine-password" element={<RedefinePassword />} />
