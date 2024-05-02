@@ -39,7 +39,7 @@ export default function ListStudents() {
       });
     
       if (response.status !== 200) {
-        throw new Error('Erro ao listar estudantes');
+        alert(response.message);
       }else{
         const responseData = await response.json();
         console.log(responseData)
@@ -49,7 +49,7 @@ export default function ListStudents() {
       }
 
     } catch (error) {
-      throw new Error(error.message);
+      alert(error.message);
     }
     };
 

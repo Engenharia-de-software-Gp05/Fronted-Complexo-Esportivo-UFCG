@@ -65,12 +65,14 @@ function Rotas() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      const decodedToken = jwtDecode(token);
-      console.log(decodedToken);
-      const roles = decodedToken.roles;
+      const decodedToken = jwtDecode(token);;
+      const roles = decodedToken.roles
+        .slice(1, -1)
+        .split(",")
+        .map((role) => role.trim());
+      console.log(roles);
       setUserRoles(roles);
     } else {
-      // "ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"
       setUserRoles(["ROLE_USER"]);
     }
   }, []);
@@ -185,7 +187,7 @@ function Rotas() {
         <Route
           path="/new-password"
           element={
-            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
+            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PENDING"].some((role) =>
               userRoles.includes(role),
             ) ? (
               <PageItem Page={NewPassword} />
