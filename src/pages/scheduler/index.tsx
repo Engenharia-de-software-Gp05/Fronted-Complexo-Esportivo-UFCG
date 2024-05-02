@@ -63,12 +63,15 @@ export const SchedulerPage = () => {
   // Função para excluir um item da lista de itens
   const deleteItem = async (item) => {
     try {
-      const response = await fetch(BASE_API + "/items/" + item.id, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        BASE_API + "/reservation/delete/by/id?id=" + item.id,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (!response.ok) {
         alert(response.message);
       }
