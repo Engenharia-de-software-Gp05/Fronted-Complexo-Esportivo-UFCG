@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
   useNavigate,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import OTP from "./pages/otp";
 import RedefinePassword from "./pages/redefine-password";
@@ -27,7 +27,7 @@ function AccessDeniedWidget({ returnPath, userRoles }) {
   const navigate = useNavigate();
 
   function handleGoBack() {
-    if(userRoles.length === 0) {
+    if (userRoles.length === 0) {
       navigate("/");
     } else {
       navigate(returnPath);
@@ -51,7 +51,7 @@ function AccessDeniedWidget({ returnPath, userRoles }) {
           }}
           onClick={handleGoBack}
         >
-        Voltar
+          Voltar
         </button>
       </div>
     </div>
@@ -61,17 +61,21 @@ function Rotas() {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
   const [returnPath, setReturnPath] = useState("");
   const [userRoles, setUserRoles] = useState(["ROLE_USER"]);
-    
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
-      const roles = decodedToken.roles;
+      console.log("pequepe" + decodedToken.roles);
+      const roles = decodedToken.roles
+        .slice(1, -1)
+        .split(",")
+        .map((role) => role.trim());
+      console.log(roles);
       setUserRoles(roles);
     } else {
-    // "ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"
-    setUserRoles(["ROLE_USER"]);  
-  }
+      setUserRoles(["ROLE_USER"]);
+    }
   }, []);
 
   function handleAccessDenied(returnPath) {
@@ -99,7 +103,7 @@ function Rotas() {
           path="/otp"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={OTP} />
             ) : (
@@ -115,7 +119,7 @@ function Rotas() {
           path="/wrong-code"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={ErrorPage} />
             ) : (
@@ -131,7 +135,7 @@ function Rotas() {
           path="/email-check"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={OkEmailPage} />
             ) : (
@@ -147,7 +151,7 @@ function Rotas() {
           path="/redefine-password"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={RedefinePassword} />
             ) : (
@@ -162,8 +166,8 @@ function Rotas() {
         <Route
           path="/new-password"
           element={
-            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+            ["ROLE_ADMIN", "ROLE_USER", "ROLE_PENDING"].some((role) =>
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={NewPassword} />
             ) : (
@@ -179,7 +183,7 @@ function Rotas() {
           path="/new-password-check"
           element={
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={RedefinePasswordCheck} />
             ) : (
@@ -196,7 +200,7 @@ function Rotas() {
           path="/scheduler"
           element={
             ["ROLE_ADMIN", "ROLE_USER"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={SchedulerPage} />
             ) : (
@@ -212,7 +216,7 @@ function Rotas() {
           path="/list-courts"
           element={
             ["ROLE_ADMIN", "ROLE_USER"].some((role) =>
-              userRoles.includes(role)
+              userRoles.includes(role),
             ) ? (
               <PageItem Page={ListCourts} />
             ) : (
