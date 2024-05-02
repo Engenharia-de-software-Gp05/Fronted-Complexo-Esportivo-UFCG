@@ -19,7 +19,7 @@ import {
 } from "../../components/utils/dateOptions.tsx";
 import { Form, ItemDetails } from "../../components/scheduler/Content.tsx";
 
-const BASE_API = "http://localhost:4000";
+const BASE_API = window.REACT_APP_API_URL;
 
 export const SchedulerPage = () => {
   const [items, setItems] = useState([]);
@@ -42,7 +42,7 @@ export const SchedulerPage = () => {
 
   const addItem = async (newItem) => {
     try {
-      const response = await fetch(BASE_API + "/items", {
+      const response = await fetch(BASE_API + "/reservation/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export const SchedulerPage = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch(BASE_API + "/items", {
+      const response = await fetch(BASE_API + "/reservation/all/detailed", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
