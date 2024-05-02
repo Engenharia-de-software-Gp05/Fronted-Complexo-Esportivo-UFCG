@@ -102,7 +102,10 @@ export default function ListCourts() {
             >
               <Grid item sx={{ height: "45%", width: "97%" }}>
                 <img
-                  src="https://via.placeholder.com/554x396"
+                  src={
+                    (selectedCourt?.imagesUrl != null && selectedCourt?.imagesUrl[0]) ||
+                    "https://via.placeholder.com/554x396"
+                  }
                   alt="Imagem"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
@@ -158,21 +161,6 @@ export default function ListCourts() {
                       mt: -3,
                     }}
                   >
-                    <Button
-                      sx={{
-                        borderRadius: "15px",
-                        width: "105px",
-                        right: "40px",
-                        textTransform: "none",
-                        color: isRemoveSelected ? "#FFF" : "inherit",
-                        backgroundColor: isRemoveSelected
-                          ? "#8F4C36"
-                          : "inherit",
-                      }}
-                      onClick={handleRemove}
-                    >
-                      Remover
-                    </Button>
                   </Box>
                 </Box>
               </Grid>
