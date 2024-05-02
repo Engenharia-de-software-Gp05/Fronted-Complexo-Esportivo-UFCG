@@ -16,6 +16,7 @@ export default function ListCourts() {
   const [isRemoveSelected, setRemoveSelected] = useState(false);
   const [allCourts, setAllCourts] = useState([]);
   const [selectedCourt, setSelectedCourt] = useState(null);
+  const [selectedCourtPath, setSelectedCourtPath] = useState("https://via.placeholder.com/554x396");
 
   const handleBlockSelect = (value) => {
     setSelectBlock(value);
@@ -54,7 +55,11 @@ export default function ListCourts() {
       },
     });
 
-    return response.json();
+    const responseData = await response.json();
+    console.log(responseData) 
+    const imagesUrl = responseData.imagesUrl;
+    setSelectedCourtPath(imagesUrl[0]);
+    return responseData
   };
 
   useEffect(() => {

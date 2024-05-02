@@ -52,7 +52,7 @@ export const SchedulerPage = () => {
         body: JSON.stringify(newItem),
       });
       if (!response.ok) {
-        throw new Error("Failed to add item");
+        alert(response.message);
       }
       await fetchItems(); // Recarregar os itens após a adição de um novo item
     } catch (error) {
@@ -70,7 +70,7 @@ export const SchedulerPage = () => {
         },
       });
       if (!response.ok) {
-        throw new Error("Failed to delete item");
+        alert(response.message);
       }
       await fetchItems(); // Recarregar os itens após a exclusão de um item
       setSelectedItem(null);
@@ -89,7 +89,7 @@ export const SchedulerPage = () => {
         },
       });
       if (!response.ok) {
-        throw new Error("Failed to fetch data");
+        alert(response.message);
       }
       const responseData = await response.json();
       setData(responseData);

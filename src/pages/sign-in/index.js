@@ -58,7 +58,7 @@ export default function SignIn() {
         });
       
         if (response.status !== 201) {
-          throw new Error('Erro ao cadastrar');
+          alert(response.message);
         }else{
           navigate('/otp');
         }

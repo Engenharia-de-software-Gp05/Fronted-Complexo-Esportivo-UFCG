@@ -15,7 +15,7 @@ export default function NewPassword() {
     if (confirm_password === password) {
       navigate("/new-password-check");
     } else {
-      alert("As senhas informadas precisam ser idênticas.");
+      alert("senhas não são iguais");
     }
   };
 

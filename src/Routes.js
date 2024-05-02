@@ -65,8 +65,7 @@ function Rotas() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      const decodedToken = jwtDecode(token);
-      console.log("pequepe" + decodedToken.roles);
+      const decodedToken = jwtDecode(token);;
       const roles = decodedToken.roles
         .slice(1, -1)
         .split(",")
@@ -175,7 +174,7 @@ function Rotas() {
             ["ROLE_ADMIN", "ROLE_USER", "ROLE_PEDING"].some((role) =>
               userRoles.includes(role),
             ) ? (
-              <PageItem Page={RedefinePassword} />
+              <RedefinePassword />
             ) : (
               <AccessDeniedWidget
                 userRoles={userRoles}

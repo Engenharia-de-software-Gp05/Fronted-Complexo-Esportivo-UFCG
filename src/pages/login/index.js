@@ -37,7 +37,7 @@ export default function LoginPage() {
       });
 
       if (response.status !== 200) {
-        throw new Error("Erro ao logar");
+        alert(response.message)
       } else {
         localStorage.setItem("token", data.token);
         navigate("/scheduler");
