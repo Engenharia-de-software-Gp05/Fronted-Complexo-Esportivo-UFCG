@@ -118,27 +118,27 @@ export default function MiniDrawer() {
   };
 
   const renderButtons = () => {
+    let buttons = [
+      { text: "Agendar", link: "/scheduler" },
+      { text: "Meus agendamentos", link: "/scheduler" },
+      { text: "Quadras", link: "/list-courts" }
+    ];
+  
     switch (userType) {
-      case "ROLE_USER":
-      case "ROLE_PENDING":
-        return [
-          { text: "Agendar", link: "/scheduler" },
-          { text: "Meus agendamentos", link: "/scheduler" },
-          { text: "Quadras", link: "/list-courts" }
-        ];
       case "ROLE_ADMIN":
-      default:
-        return [
-          { text: "Agendar", link: "/scheduler" },
-          { text: "Meus agendamentos", link: "/scheduler" },
-          { text: "Quadras", link: "/list-courts" },
+        buttons.push(
           { text: "Registrar Quadras", link: "/register-court" },
           { text: "Usuários", link: "/list-users" },
           { text: "Funcionários", link: "/list-employees" },
-          { text: "Registrar Funcionários", link: "/register-employee" },
-          { text: "Sair", link: "/" }
-        ];
+          { text: "Registrar Funcionários", link: "/register-employee" }
+        );
+        return buttons;
+      default:
+        buttons.push({ text: "Sair", link: "/" });
+        break;
     }
+  
+    return buttons;
   };
 
   return (
