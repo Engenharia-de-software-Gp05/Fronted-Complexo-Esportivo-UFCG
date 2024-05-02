@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
@@ -25,34 +25,14 @@ const ButtonDay = ({ days, selected, onClick, disabled }) => {
   );
 };
 
-export default function ThreeButtons() {
-  const [reserveDays, setReserveDays] = useState(7);
-
-  const handleSelectDiasReserva = (days) => {
-    setReserveDays(days);
-  };
-
+export default function ThreeButtons({ reserveDays }) {
   return (
     <Box
       sx={{ display: "flex", justifyContent: "space-between", mt: 2, mb: 5 }}
     >
-      <ButtonDay
-        days={7}
-        selected={reserveDays === 7}
-        onClick={() => handleSelectDiasReserva(7)}
-      />
-      <ButtonDay
-        days={15}
-        selected={false}
-        onClick={() => handleSelectDiasReserva(7)}
-        disabled={true}
-      />
-      <ButtonDay
-        days={30}
-        selected={false}
-        onClick={() => handleSelectDiasReserva(7)}
-        disabled={true}
-      />
+      <ButtonDay days={7} selected={reserveDays === 7} />
+      <ButtonDay days={15} selected={reserveDays === 15} />
+      <ButtonDay days={30} selected={reserveDays === 30} />
     </Box>
   );
 }

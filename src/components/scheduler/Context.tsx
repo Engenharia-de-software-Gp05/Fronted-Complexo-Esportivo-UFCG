@@ -15,7 +15,7 @@ export const MobileProvider = ({ children }) => {
 export const useMobileContext = () => {
   const isMobile = useContext(MobileContext);
   if (typeof isMobile === "undefined") {
-    throw new Error("useMobileContext must be used within a MobileProvider");
+    alert("useMobileContext must be used within a MobileProvider");
   }
   return isMobile;
 };
@@ -33,7 +33,7 @@ export const SelectedProvider = ({ selectedItem, children }) => {
 export const useSelectedContext = () => {
   const selectedItem = useContext(SelectedContext);
   if (typeof selectedItem === "undefined") {
-    throw new Error(
+    alert(
       "useSelectedContext must be used within a SelectedProvider"
     );
   }
@@ -56,7 +56,7 @@ export const NavProvider = ({ children, isOpen, setIsOpen }) => {
 export const useNavContext = () => {
   const { isOpen, setIsOpen } = useContext(NavContext);
   if (typeof isOpen === "undefined" || typeof setIsOpen === "undefined") {
-    throw new Error("useNavContext must be used within a NavProvider");
+    alert("useNavContext must be used within a NavProvider");
   }
   return { isOpen, setIsOpen };
 };

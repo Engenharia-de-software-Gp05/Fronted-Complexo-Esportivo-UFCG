@@ -21,8 +21,9 @@ const OTP = () => {
       });
     
       if (response.status !== 200) {
-        throw new Error('Wrong code');
+        alert(response.message)
       } else {
+        localStorage.removeItem('token');
         navigate('/email-check');
       }
     } catch (error) {

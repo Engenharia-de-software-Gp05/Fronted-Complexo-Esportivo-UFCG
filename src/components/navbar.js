@@ -156,8 +156,6 @@ export default function MiniDrawer({ onOpenForm = null }) {
             { text: "Quadras", link: "/list-courts" },
             { text: "Registrar Quadras", link: "/register-court" },
             { text: "Usuários", link: "/list-users" },
-            { text: "Funcionários", link: "/list-employees" },
-            { text: "Registrar Funcionários", link: "/register-employee" },
             { text: "Sair", link: "/" },
           ].map(({ text, link, onClick }, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>

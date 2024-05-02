@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -6,12 +6,6 @@ import {
   CssBaseline,
   Container,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  ToggleButton
 } from "@mui/material";
 import ThreeButtons from "../../components/threeButtons";
 import SearchBarCustom from "../../components/searchBarCustom";
@@ -20,125 +14,90 @@ export default function ListCourts() {
   const [selectBlock, setSelectBlock] = useState(null);
   const [isSaveSelected, setSaveSelected] = useState(false);
   const [isRemoveSelected, setRemoveSelected] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [courts, setCourts] = useState([]);
-  const [isAvailable, setIsAvailable] = useState(true);
-
-  useEffect(() => {
-    fetchCourts();
-  }, []);
-
-  const fetchCourts = async () => {
-    try {
-      const response = await fetch("/rota");
-      if(response.ok) {
-        const data = await response.json();
-        setCourts(data);
-      } else {
-        console.error("Faield to fecth courts: ", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching courts: ", error)
-    }
-  }
+  const [allCourts, setAllCourts] = useState([]);
+  const [selectedCourt, setSelectedCourt] = useState(null);
+  const [selectedCourtPath, setSelectedCourtPath] = useState("https://via.placeholder.com/554x396");
 
   const handleBlockSelect = (value) => {
     setSelectBlock(value);
-    setIsAvailable(value.isAvailable)
   };
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
-  const handleSave = async () => {
-    try {
-      const response = await fetch(`/rota/${selectBlock.id}`, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          name: selectBlock.name,
-          description: selectBlock.descricao,
-          availability: selectBlock.availability,
-          image: selectBlock.image,  
-        }),
-      });
-
-      if(response.ok) {
-        fetchCourts();
-      } else {
-        console.error("Failed to update court: ", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error update court: ", error)
-    }
+  const handleSave = () => {
     setSaveSelected(true);
     setRemoveSelected(false);
   };
 
-  const handleRemove = async () => {
-    try {
-      const response = await fetch(`/rota/${selectBlock.id}`, { method: "DELETE"});
-      if(response.ok) {
-        fetchCourts();
-        setCourts(null);
-      } else {
-        console.error("Failed to delete court: ", response.statusText );
-      }
-    } catch (error) {
-      console.error("Error deleting court: ", error);
-    }
-    setOpenDialog(false);
+  const handleRemove = () => {
+    setSaveSelected(false);
+    setRemoveSelected(true);
   };
 
-  const handleToggleAvailability = () => {
-    setIsAvailable(!isAvailable);
+  const listAllCourts = async () => {
+    const url = window.REACT_APP_API_URL + `/court/all`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+
+    return response.json();
   };
+
+  const listCourtById = async ({ courtId }) => {
+    const url = window.REACT_APP_API_URL + `/court/by/id?id=${courtId}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+
+    const responseData = await response.json();
+    console.log(responseData) 
+    const imagesUrl = responseData.imagesUrl;
+    setSelectedCourtPath(imagesUrl[0]);
+    return responseData
+  };
+
+  useEffect(() => {
+    listAllCourts().then((data) => {
+      setAllCourts(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!selectBlock) {
+      return;
+    }
+
+    listCourtById({ courtId: selectBlock.id }).then((data) => {
+      setSelectedCourt(data);
+    });
+  }, [selectBlock]);
 
   return (
-    <Container
-      name="principal"
-      component="section"
-      item
-      xs={12}
-      sm={6}
-      style={{ maxWidth: 1000, maxHeight: 956, marginTop: 20 }}
-    >
+    <Container component="section" sx={{ width: 1050, height: 910, mt: 1 }}>
       <CssBaseline>
-        <Typography variant="h4" sx={{ margin: 3 }}>
+        <Typography variant="h3" sx={{ margin: 3 }}>
           Lista de Quadras
         </Typography>
-        <Grid
-          name="gridPrincipa"
-          container
-          spacing={2}
-          style={{ maxHeight: 880 }}
-        >
-          <Grid name="gridSearch" item xs={12} sm={6} sx={{ p: 8 }}>
+        <Grid container spacing={2} style={{ maxHeight: 880 }}>
+          <Grid item xs={6}>
             <div>
               <SearchBarCustom
-                database={courts}
+                database={allCourts}
                 searchFor={"name"}
                 onSelectItem={handleBlockSelect}
               />
             </div>
           </Grid>
           <Grid
-            name="gridDescription"
             item
-            sm={6}
-            xs={12}
-            sx={{
-              width: "100%",
-              height: "100%",
-              bgcolor: "common.white",
-              borderRadius: 5,
-              border: "1px solid #ccc",
-            }}
+            xs={6}
+            sx={{ width: "100%", height: "20%", bgcolor: "common.white" }}
           >
             <Grid
               container
@@ -148,37 +107,15 @@ export default function ListCourts() {
             >
               <Grid item sx={{ height: "45%", width: "97%" }}>
                 <img
-                  // src={selectBlock.image}
+                  src={
+                    (selectedCourt?.imagesUrl != null && selectedCourt?.imagesUrl[0]) ||
+                    "https://via.placeholder.com/554x396"
+                  }
                   alt="Imagem"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </Grid>
               <Grid item sx={{ height: "55%" }}>
-                {
-                  <Box
-                    sx={{ width: "97%", height: 120, overflow: "auto", mb: 3 }}
-                  >
-                    <Typography>
-                      {selectBlock ? selectBlock.name : "Nome"}
-                    </Typography>
-                    <Typography>
-                      {selectBlock ? selectBlock.descricao : "Descrição"}
-                    </Typography>
-                  </Box>
-                }
-                <Typography variant="subtitle2">
-                  Período de Agendamento
-                </Typography>
-                <Typography>Um usuário pode marcar a cada:</Typography>
-                <Box sx={{ width: 305, height: "100%" }}>
-                  <ThreeButtons sx={{ width: "100%" }} />
-                </Box>
-                <Box>
-                  <ToggleButton 
-                    isAvailable={isAvailable}
-                    onClick={handleToggleAvailability}
-                  />
-                </Box>
                 <Box
                   sx={{
                     display: "flex",
@@ -213,7 +150,11 @@ export default function ListCourts() {
                       </Typography>
                       <Box sx={{ width: 305, height: "100%" }}>
                         {" "}
-                        <ThreeButtons />
+                        <ThreeButtons
+                          reserveDays={
+                            selectedCourt?.minimumIntervalBetweenReservation
+                          }
+                        />
                       </Box>
                     </Box>
                   </Box>
@@ -224,23 +165,7 @@ export default function ListCourts() {
                       mb: 3,
                       mt: -3,
                     }}
-                    onClick={handleOpenDialog}
                   >
-                    <Button
-                      sx={{
-                        borderRadius: "15px",
-                        width: "105px",
-                        right: "40px",
-                        textTransform: "none",
-                        color: isRemoveSelected ? "#FFF" : "inherit",
-                        backgroundColor: isRemoveSelected
-                          ? "#8F4C36"
-                          : "inherit",
-                      }}
-                      onClick={handleRemove}
-                    >
-                      Remover
-                    </Button>
                   </Box>
                 </Box>
               </Grid>
@@ -248,23 +173,6 @@ export default function ListCourts() {
           </Grid>
         </Grid>
       </CssBaseline>
-
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Confirmação de Exclusão</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Tem certeza que deseja excluir esta quadra?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleRemove} color="primary">
-            Confirmar
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 }
