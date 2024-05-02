@@ -27,7 +27,6 @@ export default function LoginPage() {
     };
     try {
       const url = window.REACT_APP_API_URL.concat("/auth/login");
-      console.log(url);
       const response = await fetch(url, {
         method: "POST",
         headers: {

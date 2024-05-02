@@ -213,15 +213,38 @@ export const Form = ({ open, onClose, onSubmit }) => {
   const [errors, setErrors] = useState({});
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const [selectedTime, setSelectedTime] = useState("");
+  const [times, setTimes] = useState([]);
 
   useEffect(() => {
-    // Simulação de requisição para obter os locais
     const fetchLocations = async () => {
       try {
-        // Substitua essa chamada pela sua lógica real de requisição
-        const response = await fetch("http://localhost:4000/locations");
+        const url = `${window.REACT_APP_API_URL}/court/all`;
+        
+        const response = await fetch(url,{
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        }
+        );
         const data = await response.json();
         setLocations(data);
+        console.log(data)
+        const url2 = `${window.REACT_APP_API_URL}/reservation/detailed/by/authenticatedUser/`;
+        
+        const response2 = await fetch(url2,{
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        }
+        );
+        const data2 = await response2.json();
+        console.log(data2)
+        setTimes(data2);
+
       } catch (error) {
         console.error("Erro ao obter os locais:", error);
       }
