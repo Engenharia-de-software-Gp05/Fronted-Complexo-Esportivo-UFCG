@@ -14,13 +14,13 @@ import ErrorPage from "./pages/wrong-code";
 import RedefinePasswordCheck from "./pages/new-password-check";
 import RegisterCourt from "./pages/court/registerCourt";
 import ListCourts from "./pages/court/listCourts";
-import SchedulerPage from "./pages/scheduler";
 import RegisterEmployee from "./pages/employee/registerEmployee";
 import ListEmployees from "./pages/employee/listEmployees";
 import ListStudents from "./pages/dashboard/students";
 import SignIn from "./pages/sign-in";
 import LoginPage from "./pages/login";
 import PageItem from "./components/pageItem";
+import { SchedulerPage } from "./pages/scheduler/index.tsx";
 import { jwtDecode } from "jwt-decode";
 
 function AccessDeniedWidget({ returnPath, userRoles }) {
@@ -97,6 +97,28 @@ function Rotas() {
       )}
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/otp" element={<OTP />} />
+        <Route path="/list-students" element={<ListStudents />} />
+        <Route path="/scheduler" element={<SchedulerPage />} />
+        <Route path="/list-users" element={<PageItem Page={ListStudents} />} />
+        <Route path="/redefine-password" element={<RedefinePassword />} />
+        <Route path="/new-password" element={<NewPassword />} />
+        <Route path="/email-check" element={<OkEmailPage />} />
+        <Route path="/wrong-code" element={<ErrorPage />} />
+        <Route path="/new-password-check" element={<RedefinePasswordCheck />} />
+        <Route
+          path="/register-court"
+          element={<PageItem Page={RegisterCourt} />}
+        />
+        <Route path="/list-courts" element={<PageItem Page={ListCourts} />} />
+        <Route
+          path="/register-employee"
+          element={<PageItem Page={RegisterEmployee} />}
+        />
+        <Route
+          path="/list-employees"
+          element={<PageItem Page={ListEmployees} />}
+        />
         <Route path="/sign-in" element={<SignIn />} />
 
         <Route
@@ -202,7 +224,7 @@ function Rotas() {
             ["ROLE_ADMIN", "ROLE_USER"].some((role) =>
               userRoles.includes(role),
             ) ? (
-              <PageItem Page={SchedulerPage} />
+              <SchedulerPage />
             ) : (
               <AccessDeniedWidget
                 userRoles={userRoles}

@@ -35,7 +35,7 @@ const SearchBarCustom = ({ database, searchFor, onSelectItem }) => {
     setIsSearchActive(true);
 
     const filtered = database.filter((item) =>
-      item[searchFor].toLowerCase().includes(searchQuery.toLowerCase())
+      item[searchFor].toLowerCase().includes(searchQuery.toLowerCase()),
     );
     setFilteredData(filtered);
   };
